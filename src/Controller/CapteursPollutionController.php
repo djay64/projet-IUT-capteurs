@@ -16,4 +16,12 @@ class CapteursPollutionController extends AbstractController
             'controller_name' => 'CapteursPollutionController',
         ]);
     }
+    /**
+     * @Route("/", name="capteurs_pollution_accueil")
+     */
+    public function accueil()
+    {
+        return $this->render('capteurs_pollution/accueil.html.twig');
+    }
+
 }
