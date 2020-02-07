@@ -1,3 +1,113 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}<H1> Bienvenue sur le site des relevés de capteurs de pollution du BAB{% endblock %}
+        {% block stylesheets %}  
+            {{ encore_entry_link_tags('page-accueil') }}
+         {% endblock %}
+
+
+{% block body %}
+
+<div class="main-grid-Accueil ">
+      <div class="nav-accueil nav-secondary-background navbar">
+        <!-- navbar-grid -->
+
+        <!--<div class="btn nav-item-first">
+                Accueil
+            
+            </div>
+            <div class="nav-item-second">
+                graphique
+            </div>
+            <div class="nav-item-third">
+                connexion
+            </div>
+            -->
+
+        <!--<ul class="navbar">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Pricing</a></li>
+                <li><a href="#">Contact</a></li>
+              </ul>-->
+
+        <div class="navitem-accueil">
+          <a href="">
+               <button class="btn">
+              <h4>Accueil</h4>
+             </button>
+        </a>
+        </div>
+        <div class="navitem-graphique">
+          <a href="">
+            <button class="btn">
+                <h4>Graphique</h4>
+            </button>
+          </a>
+        </div>
+        <div class="navitem-connect">
+          <a href="">
+            <button class="btn">
+                <h4>Connexion</h4>
+            </button>
+          </a href="">
+        </div>
+      </div>
+
+      <div class="titre-information-generales"> <h2 class="text-light">Informations générales</h2> </div>
+
+      <div class="information-generales grid-infomration-global background-div-container">
+        <div class="item-information-first">
+            <div class="card card-offline">
+                <h5 >PM 2,5 µm</h5>
+                <h2>NULL</h2>
+            </div>
+        </div>  
+        <div class="item-information-second">            
+            <div class="card card-offline">
+                <h5 >PM 10 µm</h5>
+                <h2>NULL</h2>
+            </div>
+        </div>  
+        <div class="item-information-third">           
+            <div class="card card-offline">
+                <h5 >Température</h5>
+                <h2>NULL</h2>
+            </div>
+    </div>
+        <div class="item-information-fourth">            
+            <div class="card card-offline">
+                <h5 >Humidité</h5>
+                <h2>NULL</h2>
+            </div>
+    </div>  
+      </div>
+
+      <div class="titre-graphique "> 
+        <h2 class="text-light">Statistique / graphique simple de Bayonne à 16h</h2> 
+      </div>
+
+      <div class="legende-graphique background-div-container legende">
+          <h5 class="text-light">Légende</h5>
+          <p class="fourth-color">PM 2.5 µm</p>
+          <p class="fifth-color">PM 10 µm</p>
+      </div>
+      
+      <div class="graphique-principal background-div-container">
+        <h5 class="text-light">Concentration des particules en µg/m³</h5>
+        
+      </div>
+
+      <div class="graphique-secondaire background-div-container">
+        <h5 class="text-light">Répartition des particules en %</h5>
+      </div>
+
+    </div>
+
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('page-accueil') }}
+{% endblock %}
