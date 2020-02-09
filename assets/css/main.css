@@ -19,4 +19,139 @@ body {
  
 }
 
+.navbar-grid-connected,
+.navbar-grid-unconnected{
+  background-color: var(--bacground-secondary);
+}
 
+.navbar-grid-unconnected .navbar {
+    display: grid;
+    grid-template-columns: 60% auto 3rem auto 3rem auto 8rem;
+    grid-template-rows: auto;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+  }
+
+  .navbar-grid-unconnected .navbar .navitem-accueil {
+    grid-area: 1 / 2 / 1 / 2;
+  }
+  
+  .navbar-grid-unconnected .navbar .navitem-graphique {
+    grid-area: 1 / 4 / 1 / 4;
+  }
+  
+  .navbar-grid-unconnected .navbar .navitem-connect {
+    grid-area: 1 / 6 / 1 / 6;
+  }
+  
+
+.navbar-grid-connected .navbar {
+    display: grid;
+    grid-template-columns: 60% auto 3rem auto 3rem auto 3rem auto 1rem;
+    grid-template-rows: auto;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+  }
+
+  .navbar-grid-connected .navbar .navitem-accueil {
+    grid-area: 1 / 2 / 1 / 2;
+    display: inline-block;
+  }
+  
+  .navbar-grid-connected .navbar .navitem-graphique {
+    grid-area: 1 / 4 / 1 / 4;
+  }
+  
+  .navbar-grid-connected .navbar .navitem-gestion-capteurs {
+    grid-area: 1 / 6 / 1 / 6;
+  }
+  
+  .navbar-grid-connected .navbar .navitem-admin {
+    grid-area: 1 / 8 / 1 / 8;
+  }
+
+
+  .navbar-grid-unconnected .navbar .navitem-connect .btn,
+  .navbar-grid-unconnected .navbar.navitem-graphique .btn,  
+  .navbar-grid-unconnected .navbar.navitem-accueil .btn,
+  .navbar-grid-connected .navbar .navitem-gestion-capteurs .btn,
+  .navbar-grid-connected .navbar .navitem-admin .btn,
+  .navbar-grid-connected .navbar .navitem-graphique .btn,  
+  .navbar-grid-connected .navbar .navitem-accueil .btn  
+  {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bacground-secondary);
+    color: var(--secondary-color);
+  
+    border: none;
+    cursor: pointer;
+  }
+  
+  .navbar-grid-unconnected .navbar .navitem-connect .btn:hover,
+  .navbar-grid-unconnected .navbar .navitem-graphique .btn:hover , 
+  .navbar-grid-unconnected .navbar .navitem-accueil .btn:hover,
+  .navbar-grid-connected .navbar .navitem-gestion-capteurs .btn:hover,
+  .navbar-grid-connected .navbar .navitem-admin .btn:hover,
+  .navbar-grid-connected .navbar .navitem-graphique .btn:hover , 
+  .navbar-grid-connected .navbar .navitem-accueil .btn:hover {
+    background-color: var(--background-color);
+    color: var(--third-color);
+  }
+
+
+  .navbar-grid-unconnected .navbar .navitem-connect.active::after,
+  .navbar-grid-unconnected .navbar .navitem-graphique.active::after,  
+  .navbar-grid-unconnected .navbar .navitem-accueil.active::after,
+  .navbar-grid-connected .navbar .navitem-gestion-capteurs.active::after,
+  .navbar-grid-connected .navbar .navitem-admin.active::after,
+  .navbar-grid-connected .navbar .navitem-graphique.active::after,  
+  .navbar-grid-connected .navbar .navitem-accueil.active::after  
+  {
+    
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--third-color);
+  }
+  
+  .navbar-grid-unconnected .navbar .navitem-connect.active .btn,
+  .navbar-grid-unconnected .navbar .navitem-graphique.active .btn,  
+  .navbar-grid-unconnected .navbar .navitem-accueil.active .btn,
+  .navbar-grid-connected .navbar .navitem-gestion-capteurs.active .btn,
+  .navbar-grid-connected .navbar .navitem-admin.active .btn,
+  .navbar-grid-connected .navbar .navitem-graphique.active .btn,  
+  .navbar-grid-connected .navbar .navitem-accueil.active .btn  
+  {
+    background-color: var(--background-color);
+    color: var(--third-color)
+  }
+
+  .navbar-grid-unconnected .navbar .navitem-connect::after ,
+  .navbar-grid-unconnected .navbar .navitem-graphique::after ,  
+  .navbar-grid-unconnected .navbar .navitem-accueil::after ,
+  .navbar-grid-connected .navbar .navitem-gestion-capteurs::after ,
+  .navbar-grid-connected .navbar .navitem-admin::after ,
+  .navbar-grid-connected .navbar .navitem-graphique::after ,  
+  .navbar-grid-connected .navbar .navitem-accueil::after   
+  {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: var(--third-color);
+    transition: width .3s;
+  }
+
+  .navbar-grid-unconnected .navbar .navitem-connect:hover::after ,
+  .navbar-grid-unconnected .navbar .navitem-graphique:hover::after ,  
+  .navbar-grid-unconnected .navbar .navitem-accueil:hover::after ,
+  .navbar-grid-connected .navbar .navitem-gestion-capteurs:hover::after ,
+  .navbar-grid-connected .navbar .navitem-admin:hover::after ,
+  .navbar-grid-connected .navbar .navitem-graphique:hover::after ,  
+  .navbar-grid-connected .navbar .navitem-accueil:hover::after   
+  {
+    width: 100%;
+    transition: width .3s;
+  }

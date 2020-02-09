@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+        {% block stylesheets %}  
+            {{ encore_entry_link_tags('page-accueil') }}
+         {% endblock %}
+
+
+{% block body %}
+
+
+
+       
+
+    <div class="navbar-grid-connected ">
+      <div class="navbar nav-secondary-background navbar">
+        
+
+        <div class="navitem-accueil active">
+          <a href="/">
+               <button class="btn">
+              <h4>Accueil</h4>
+             </button>
+        </a>
+        </div>
+
+        
+        <div class="navitem-graphique ">
+          <a href="/graphique">
+            <button class="btn">
+                <h4>Graphique</h4>
+            </button>
+          </a>
+        </div>
+
+        
+        <div class="navitem-gestion-capteurs">
+          <a href="#">
+            <button class="btn">
+                <h4>Gestion capteurs</h4>
+            </button>
+          </a href="">
+        </div>
+
+        
+        <div class="navitem-admin">
+          <a href="">
+            <button class="btn">
+                <h4>Admin</h4>
+            </button>
+          </a href="">
+        </div>
+
+      </div>
+</div>
+ 
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('page-accueil') }}
+{% endblock %}

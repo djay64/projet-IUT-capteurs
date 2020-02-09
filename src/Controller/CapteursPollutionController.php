@@ -23,5 +23,21 @@ class CapteursPollutionController extends AbstractController
     {
         return $this->render('capteurs_pollution/accueil.html.twig');
     }
+    
+    /**
+     * @Route("/graphique", name="capteurs_pollution_graphique")
+     */
+    public function graphique()
+    {
+        return $this->render('capteurs_pollution/graphique.html.twig');
+    }
 
+
+    /**
+     * @Route("/gestionCapteurs", name="capteurs_pollution_gestionCapteur")
+     */
+    public function gestionCapteur()
+    {
+        return $this->render('capteurs_pollution/gestion-capteurs.html.twig');
+    }
 }
