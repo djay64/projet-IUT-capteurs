@@ -38,7 +38,7 @@
     background-color: var(--bacground-secondary);
   }
   
-  .navbar-old {
+  .navbar {
     display: grid;
     grid-template-columns: 60% auto 3rem auto 3rem auto 8rem;
     grid-template-rows: auto;

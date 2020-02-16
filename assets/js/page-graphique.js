@@ -6,6 +6,7 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
+import '../css/bootstrap.min.css';
 import '../css/main.css';
 import '../css/page-graphique.css';
 

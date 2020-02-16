@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class CapteursPollutionController extends AbstractController
 {
@@ -36,8 +37,23 @@ class CapteursPollutionController extends AbstractController
     /**
      * @Route("/gestionCapteurs", name="capteurs_pollution_gestionCapteur")
      */
-    public function gestionCapteur()
+    public function gestionCapteur(Request $request)
     {
-        return $this->render('capteurs_pollution/gestion-capteurs.html.twig');
+        $defaultData = ['message' => 'Type your message here'];
+        
+        $form = $this->createFormBuilder($defaultData)
+            ->add('nomDuCapteur')
+            ->getForm();
+    
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            // data is an array with "name", "email", and "message" keys
+            $data = $form->getData();
+        }
+    
+        $valueZoneAction = "medium";
+        return $this->render('capteurs_pollution/gestion-capteurs.html.twig', ['form'=>$form->createView(), "valueZoneAction"=>$valueZoneAction]);
+ 
     }
 }

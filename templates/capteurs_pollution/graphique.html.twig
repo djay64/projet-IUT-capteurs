@@ -7,51 +7,43 @@
 
 {% block body %}
 
-<div class="main-grid-Accueil ">
-      <div class="nav-accueil nav-secondary-background navbar">
-        <!-- navbar-grid -->
+<nav class="navbar navbar-dark navbar-expand-lg p-0 navbar-background" id="mainNav">
+		
+    <button class="navbar-toggler ml-auto py-3 mr-2" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-        <!--<div class="btn nav-item-first">
-                Accueil
-            
-            </div>
-            <div class="nav-item-second">
-                graphique
-            </div>
-            <div class="nav-item-third">
-                connexion
-            </div>
-            -->
+		<div class="collapse navbar-collapse " id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
 
-        <!--<ul class="navbar">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">Contact</a></li>
-              </ul>-->
+				<li class="nav-item mx-2 ">
+        <div class="px-4 py-2">
+					<a class="nav-link " href="/">Accueil</a>
+          </div>
+				</li>
 
-        <div class="navitem-accueil">
-          <a href="">
-               <button class="btn">
-              <h4>Accueil</h4>
-             </button>
-        </a>
-        </div>
-        <div class="navitem-graphique">
-          <a href="">
-            <button class="btn">
-                <h4>Graphique</h4>
-            </button>
-          </a>
-        </div>
-        <div class="navitem-connect">
-          <a href="">
-            <button class="btn">
-                <h4>Connexion</h4>
-            </button>
-          </a href="">
-        </div>
-      </div>
+				<li class="nav-item mx-2 active">
+        <div class="px-4 py-2">
+					<a class="nav-link " href="/graphique">Graphique</a>
+          </div>
+				</li>
+
+				<li class="nav-item mx-2 ">
+          <div class="px-4 py-2">
+					  <a class="nav-link " href="gestionCapteurs">Gestion capteurs</a>
+          </div>
+				</li>
+
+				<li class="nav-item mx-2">
+        <div class="px-4 py-2">
+					<a class="nav-link " href="">Admin</a>
+          </div>
+				</li>
+        
+			</ul>
+		</div>
+	</div>
+</nav>
 
       
 

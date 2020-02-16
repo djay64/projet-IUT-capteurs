@@ -1,63 +1,123 @@
 {% extends 'base.html.twig' %}
 
-        {% block stylesheets %}  
-            {{ encore_entry_link_tags('page-accueil') }}
-         {% endblock %}
+{% block stylesheets %}
+	{{ encore_entry_link_tags('page-gestion-capteurs') }}
+{% endblock %}
 
 
 {% block body %}
 
 
+<nav class="navbar navbar-dark navbar-expand-lg p-0 navbar-background" id="mainNav">
+		
+    <button class="navbar-toggler ml-auto py-3 mr-2" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-       
+		<div class="collapse navbar-collapse " id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
 
-    <div class="navbar-grid-connected ">
-      <div class="navbar nav-secondary-background navbar">
+				<li class="nav-item mx-2 ">
+        <div class="px-4 py-2">
+					<a class="nav-link " href="/">Accueil</a>
+          </div>
+				</li>
+
+				<li class="nav-item mx-2">
+        <div class="px-4 py-2">
+					<a class="nav-link " href="/graphique">Graphique</a>
+          </div>
+				</li>
+
+				<li class="nav-item mx-2 active">
+          <div class="px-4 py-2">
+					  <a class="nav-link " href="/gestionCapteurs">Gestion capteurs</a>
+          </div>
+				</li>
+
+				<li class="nav-item mx-2">
+        <div class="px-4 py-2">
+					<a class="nav-link " href="">Admin</a>
+          </div>
+				</li>
         
+			</ul>
+		</div>
+	</div>
+</nav>
 
-        <div class="navitem-accueil active">
-          <a href="/">
-               <button class="btn">
-              <h4>Accueil</h4>
-             </button>
-        </a>
-        </div>
-
-        
-        <div class="navitem-graphique ">
-          <a href="/graphique">
-            <button class="btn">
-                <h4>Graphique</h4>
-            </button>
-          </a>
-        </div>
-
-        
-        <div class="navitem-gestion-capteurs">
-          <a href="#">
-            <button class="btn">
-                <h4>Gestion capteurs</h4>
-            </button>
-          </a href="">
-        </div>
-
-        
-        <div class="navitem-admin">
-          <a href="">
-            <button class="btn">
-                <h4>Admin</h4>
-            </button>
-          </a href="">
-        </div>
-
-      </div>
-</div>
  
 
+{#<div class="container-fluid mt-4">
+  <div class="row">
+
+    <div class="col-lg-6 col-md-12">
+    <div class="background-container-section mh-50">
+        d
+      <table class="table overflow-auto ">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nom du capteur</th>
+          <th scope="col">Latitude</th>
+          <th scope="col">Longitude</th>
+        </tr>
+        {% for capteur in 0..30 %}
+        <tr>
+          <td> {{ capteur }}</td>
+          <td> Un nom de capteur </td>
+          <td> 43.477150 </td>
+          <td> -1.508095 </td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+ 
+
+    <div class="col-lg-6 col-md-12">
+      <div class="background-container-section">
+        d
+      </div>
+    </div>
+
+  </div>
+
+<section class="main-content-grid-gestion-capteurs">
+  <div class="liste-capteurs background-container-section">
+    <h1 class="text-secondary-color text-ligh">Liste des capteurs</h1>
+    <div class="list">
+    <table class="table">
+      <tr>
+        <th>#</th>
+        <th>Nom du capteur</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+      </tr>
+      {% for capteur in 0..30 %}
+      <tr>
+        <td> {{ capteur }}</td>
+        <td> Un nom de capteur </td>
+        <td> 43.477150 </td>
+        <td> -1.508095 </td>
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+  </div>
+
+  <div class="zone-action-{{valueZoneAction}} background-container-section">
+    <h4 class="text-secondary-color text-ligh label-text">Ajouter, modifier ou supprimer un capteur</h4>
+    <div class="form">
+    {{form_start(form)}}
+      <label class="form-text">Nom du capteur :</label>
+      <span>{{form_widget(form.nomDuCapteur)}}</span>
+    {{form_end(form)}}
+    </div>
+  </div>
+
+
+</section>
+</div>#}
 {% endblock %}
-
-
-
 {% block javascripts %}
-    {{ encore_entry_script_tags('page-accueil') }}
-{% endblock %}
+{{ encore_entry_script_tags('page-gestion-capteurs') }}{% endblock %}
