@@ -61,12 +61,6 @@ body {
   transition: width 0.3s;
 }
 
-.background-container-section {
-  background-color: var(--bacground-secondary);
-  padding: rem 0;
-  border-radius: 17px;
-  border: 1px solid var(--border-color);
-}
 
 .nav-link {
   color: var(--secondary-color);
@@ -81,4 +75,12 @@ body {
 
 .text-ligh {
   font-weight: lighter;
+}
+
+.background-container-section{
+  background-color: var(--bacground-secondary);
+  padding: 2rem 0;
+  border-radius: 17px;
+  border: 1px solid var(--border-color);
+  
 }

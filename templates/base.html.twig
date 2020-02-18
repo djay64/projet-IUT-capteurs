@@ -7,6 +7,43 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+    <nav class="navbar navbar-dark navbar-expand-lg p-0 navbar-background" id="mainNav">
+
+		<button class="navbar-toggler ml-auto py-3 mr-2" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse " id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+
+				<li class="nav-item mx-2 active">
+					<div class="px-4 py-2">
+						<a class="nav-link " href="/">Accueil</a>
+					</div>
+				</li>
+
+				<li class="nav-item mx-2">
+					<div class="px-4 py-2">
+						<a class="nav-link " href="/graphique">Graphique</a>
+					</div>
+				</li>
+
+				<li class="nav-item mx-2 ">
+					<div class="px-4 py-2">
+						<a class="nav-link " href="/gestionCapteurs">Gestion capteurs</a>
+					</div>
+				</li>
+
+				<li class="nav-item mx-2">
+					<div class="px-4 py-2">
+						<a class="nav-link " href="">Admin</a>
+					</div>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+    </nav>
         {% block body %}{% endblock %}
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

@@ -1,98 +1,26 @@
-.main-grid-Accueil {
-    display: grid;
-    grid-template-columns: 5vmax /*16vmax*/ 1fr 3rem /*40vmax*/ 2fr 3rem /*32vmax*/ 1.5fr 5vmax;
-    grid-template-rows: 8vh 1vh repeat(6, auto) 5vh;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-  }
-  
-  .nav-accueil {
-    grid-area: 1 / 1 / 2 / 8;
-  }
-  
-  .graphique-secondaire {
-    grid-area: 6 / 6 / 9 / 7;
-  }
-  
-  .graphique-principal {
-    grid-area: 6 / 4 / 9 / 5;
-  }
-  
-  .legende-graphique {
-    grid-area: 6 / 2 / 8 / 3;
-  }
-  
-  .titre-graphique {
-    grid-area: 5 / 2 / 6 / 5;
-  }
-  
-  .information-generales {
-    grid-area: 4 / 2 / 5 / 7;
-  }
-  
-  .titre-information-generales {
-    grid-area: 3 / 2 / 4 / 5;
-  }
-  
-  .nav-secondary-background {
-    background-color: var(--bacground-secondary);
-  }
-  
-  .navbar-old {
-    display: grid;
-    grid-template-columns: 60% auto 3rem auto 3rem auto 8rem;
-    grid-template-rows: auto;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-  }
-  
-  .navitem-accueil {
-    grid-area: 1 / 2 / 2 / 2;
-  }
-  
-  .navitem-graphique {
-    grid-area: 1 / 4 / 2 / 4;
-  }
-  
-  .navitem-connect {
-    grid-area: 1 / 6 / 2 / 6;
-  }
 
-  
-  .grid-infomration-global {
-    display: grid;
-    grid-template-columns: 3rem auto 3rem auto 3rem auto 3rem auto 3rem;
-    grid-template-rows: auto;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-  
-  }
-  
-  .item-information-first {
-    grid-area: 1 / 2 / 2 / 3;
-  }
-  
-  .item-information-second {
-    grid-area: 1 / 4 / 2 / 5;
-  }
-  
-  .item-information-third {
-    grid-area: 1 / 6 / 2 / 7;
-  }
-  
-  .item-information-fourth {
-    grid-area: 1 / 8 / 2 / 9;
-  }
-  
-  
   .card{
   width: 100%;
   height: auto;
   border-radius: 17px;
-  text-align: center;
-  padding: 1px;
+  text-align: center; 
   color: black;
   }
+
+  .card-offline{
+    background-color: rgb(184, 183, 183);
+  }
+
+
+
+
+
+
+
+
+
+
+  
   
   .information-card > h5{
     margin-top: 1rem;
@@ -102,12 +30,10 @@
     margin-top: 2rem;
   }
   
-  .card-offline{
-    background-color: rgb(184, 183, 183);
-  }
+
   
   
-  .background-div-container{
+  .background-div-contaidner{
     background-color: var(--bacground-secondary);
     padding: 2rem 0;
     border-radius: 17px;
