@@ -71,3 +71,17 @@
   background-color: #fff;
   border: 1px solid #ddd;
 }
+
+
+
+
+
+
+
+
+
+
+.overflow-table{
+  max-height: 85vh;
+  overflow: auto;
+}

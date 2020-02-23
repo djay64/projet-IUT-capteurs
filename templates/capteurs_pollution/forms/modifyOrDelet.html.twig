@@ -1,0 +1,36 @@
+{% extends 'capteurs_pollution/gestion-capteurs.html.twig' %}
+
+{% block titreSection %}
+
+	<h4 class="text-secondary-color text-ligh label-text">Modifier ou supprimer un capteur</h4>
+
+{% endblock %}
+
+{% block form %}
+
+	<p>Nom du capteur :
+		{{ nomDuCapteur }}</p>
+	<p>Latitude :
+		{{ latitude }}</p>
+	<p>Longitude :
+		{{ longitude }}</p>
+
+
+	<div class="d-flex justify-content-end">
+		<div class="p-2">
+			<a href="{{ path('capteurs_pollution_gestionCapteur') }}">
+				<button type="button" class="btn btn-primary">Annuler</button>
+			</a>
+		</div>
+		<div class="p-2">
+			<a href="{{ path('capteurs_pollution_gestionCapteur') }}/modifier/{{nomDuCapteur }}">
+				<button type="button" class="btn btn-primary">Modifier</button>
+			</a>
+		</div>
+		<div class="p-2">
+			<a href="{{ path('capteurs_pollution_gestionCapteur') }}/supprimer/{{nomDuCapteur }}">
+				<button type="button" class="btn btn-primary">Supprimer</button>
+			</a>
+		</div>
+	</div>
+{% endblock %}

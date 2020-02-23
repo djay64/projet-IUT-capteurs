@@ -1,0 +1,46 @@
+{% extends 'capteurs_pollution/gestion-capteurs.html.twig' %}
+
+{% block titreSection %}
+
+    <h4 class="text-secondary-color text-ligh label-text">{{ typeAction}} un capteur</h4>
+
+{% endblock %}
+
+{% block form %}
+ 
+    <p>Nom du capteur : {{ nomDuCapteur }}</p>
+    
+    <div class="row mt-3">
+
+        <div class="col-lg-3 col-md-12 pr-5">
+            <label class="form-text ">Latitude : </label>
+        </div> 
+
+        <div class="col-lg-9 col-md-12">
+            <span>{{form_widget(form.latitude, {'attr': {'class': 'form-control-sm'}})}}</span>
+        </div>
+
+    </div>    
+
+
+    <div class="row mt-3 ">
+
+        <div class="col-lg-3 col-md-12 pr-5">
+            <label class="form-text">longitude : </label>
+        </div> 
+
+        <div class="col-lg-9 col-md-12">
+            <span>{{form_widget(form.longitude, {'attr': {'class': 'form-control-sm'}})}}</span>
+        </div>
+
+    </div>  
+
+
+
+
+    <div class="d-flex justify-content-end">
+        <div class="p-2"><a href="{{ path('capteurs_pollution_gestionCapteur') }}"><button type="button" class="btn btn-primary">Annuler</button></a></div>
+        <div class="p-2"><button type="button" class="btn btn-primary">{{typeAction}}</button></div> 
+    </div>
+{% endblock %}
+          

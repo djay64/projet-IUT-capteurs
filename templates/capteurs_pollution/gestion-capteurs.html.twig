@@ -7,7 +7,74 @@
 
 {% block body %}
 
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-lg-6 col-md-12">
+      <div class="background-container-section px-4 overflow-table">
+          <h5>Liste des capteurs</h5>
+        <table class="table">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom du capteur</th>
+            <th scope="col">Latitude</th>
+            <th scope="col">Longitude</th>
+          </tr>
+          {% for numeroCapteur in 0..30 %}
+            <tr>
+          {#<a href="{{ path('capteurs_pollution_gestionCapteur') }}/modifierOuSupprimer/{{nomCapteur }}">#}
+              <td> {{ numeroCapteur }}</td>
+              <td> Nom du capteur</td>
+              <td> Latitude </td>
+              <td> Longitude </td>
+          {#</a>#}
+            </tr>
+          {% endfor %}
+        </table>
+        </div>
+    </div>
+ 
 
+    <div class="col-lg-6 col-md-12">
+      <div class="background-container-section px-4">
+        
+          {% block titreSection %}
+
+            <h4 class="text-secondary-color text-ligh label-text">Ajouter, modifier ou supprimer un capteur</h4>
+
+          {% endblock %}
+
+
+          <div class="form">
+            {% block form %}
+
+
+            {{form_start(form)}}
+
+            <div class="row mt-3">
+
+            <div class="col-lg-4 col-md-12 pr-5">
+              <label class="form-text ">Nom du capteur :</label>
+            </div> 
+
+            <div class="col-lg-8 col-md-12">
+              <span>{{form_widget(form.nomDuCapteur, {'attr': {'class': 'form-control-sm'}})}}</span>
+            </div>
+
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                 <div class="p-1"><button type="submit" class="btn btn-primary">Valider</button></div>
+            </div>
+
+            {{form_end(form)}}
+            {% endblock %}
+          </div>
+        </div>
+
+
+
+
+  </div>
+</div>
 
 {#<div class="container-fluid mt-4">
   <div class="row">
