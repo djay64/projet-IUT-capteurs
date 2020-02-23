@@ -14,3 +14,7 @@ import '../css/page-graphique.css';
  import $ from 'jquery';
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+
+ 
+
+document.getElementById("nav-item-graphique").classList.add("active");
