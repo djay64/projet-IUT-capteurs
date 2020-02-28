@@ -36,11 +36,11 @@ class CapteursPollutionController extends AbstractController
 
         $formulaireFiltres = $this->createFormBuilder($saisieFiltres)
         ->add('titre', TextType::class)
-        ->add('dateDebut', DateType::class, ['widget' => 'single_text'])
-        ->add('dateFin', DateType::class, ['widget' => 'single_text'])
-        ->add('typeParticule', ChoiceType::class, ['choices' => ['PM 2.5' => 'pm25', 'PM 10' => 'pm10'], 'expanded' => true, 'multiple' => true])
-        ->add('capteurs', ChoiceType::class, ['choices' => ['Capteur 1' => 'capteur1', 'Capteur 2' => 'capteur2', 'Capteur 3' => 'capteur3'], 'expanded' => false, 'multiple' => true])
-        ->add('typeGraphique', ChoiceType::class, ['choices' => ['Barre' => 'barre', 'Baton' => 'baton', 'Histogramme' => 'histogramme', 'Radar' => 'radar', 'Nuage de points' => 'nuage', 'Secteur' => 'secteur', 'Courbe' => 'courbe', 'Aires' => 'aire'], 'expanded' => true, 'multiple' => false])
+        ->add('dateDebut', DateType::class, ['label' => 'Début', 'widget' => 'single_text'])
+        ->add('dateFin', DateType::class, ['label' => 'Fin', 'widget' => 'single_text'])
+        ->add('typeParticule', ChoiceType::class, ['label' => 'Particules', 'choices' => ['PM 2.5' => 'pm25', 'PM 10' => 'pm10'], 'expanded' => true, 'multiple' => true])
+        ->add('capteurs', ChoiceType::class, ['label' => 'Capteurs', 'choices' => ['Capteur 1' => 'capteur1', 'Capteur 2' => 'capteur2', 'Capteur 3' => 'capteur3'], 'expanded' => false, 'multiple' => true])
+        ->add('typeGraphique', ChoiceType::class, ['label' => 'Type de graphique', 'choices' => ['Barre' => 'barre', 'Baton' => 'baton', 'Histogramme' => 'histogramme', 'Radar' => 'radar', 'Nuage de points' => 'nuage', 'Secteur' => 'secteur', 'Courbe' => 'courbe', 'Aires' => 'aire'], 'expanded' => true, 'multiple' => false])
         ->getForm();
 
         return $this->render('capteurs_pollution/genererGraphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView()]);
