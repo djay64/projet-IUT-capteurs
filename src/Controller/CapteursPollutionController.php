@@ -7,6 +7,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Twig\Environment;
@@ -34,11 +37,22 @@ class CapteursPollutionController extends AbstractController
     /**
      * @Route("/graphique", name="capteurs_pollution_graphique")
      */
-    public function graphique()
-    {
-        return $this->render('capteurs_pollution/graphique.html.twig');
-    }
+    public function genererGraphique(Request $requete){
+        $saisieFiltres = ['titre' => 'Titre du graphique'];
 
+        $formulaireFiltres = $this->createFormBuilder($saisieFiltres)
+        ->add('titre', TextType::class)
+        ->add('dateDebut', DateType::class, ['widget' => 'single_text'])
+        ->add('dateFin', DateType::class, ['widget' => 'single_text'])
+        ->add('typeParticule', ChoiceType::class, ['choices' => ['PM 2.5' => 'pm25', 'PM 10' => 'pm10'], 'expanded' => true, 'multiple' => true])
+        ->add('capteurs', ChoiceType::class, ['choices' => ['Capteur 1' => 'capteur1', 'Capteur 2' => 'capteur2', 'Capteur 3' => 'capteur3'], 'expanded' => false, 'multiple' => true])
+        ->add('typeGraphique', ChoiceType::class, ['choices' => ['Barre' => 'barre', 'Baton' => 'baton', 'Histogramme' => 'histogramme', 'Radar' => 'radar', 'Nuage de points' => 'nuage', 'Secteur' => 'secteur', 'Courbe' => 'courbe', 'Aires' => 'aire'], 'expanded' => true, 'multiple' => false])
+        ->add('Modifier', SubmitType::class)
+        ->add('Exporter', SubmitType::class)
+        ->getForm();
+
+        return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'titreGraphique'=>'Titre du Graphique']);
+    } 
 
     /**
      * @Route("/gestionCapteurs/{typeAction}/{nomCapteur}", name="capteurs_pollution_gestionCapteur")

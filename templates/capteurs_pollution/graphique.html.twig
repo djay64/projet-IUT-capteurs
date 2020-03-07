@@ -1,14 +1,70 @@
 {% extends 'base.html.twig' %}
 
         {% block stylesheets %}  
-            {{ encore_entry_link_tags('page-accueil') }}
+            {{ encore_entry_link_tags('page-graphique') }}
          {% endblock %}
 
 
 {% block body %}
 
  
-      
+<div class="container-fluid ">
+  <div class="row mt-5 mx-5">
+    <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="container-fluid background-container-section overflow-filtre px-4 ">
+        {{form_start(selectionFiltres)}}
+
+            <div class="col-lg-12 background-subcontainer-section px-4">
+                {{form_widget(selectionFiltres.titre)}}
+            </div>
+
+            <div class="col-lg-12 mt-4 background-subcontainer-section px-4">
+            <div>
+                {{form_widget(selectionFiltres.dateDebut)}}
+            </div> 
+            <div class="mt-2">
+                {{form_widget(selectionFiltres.dateFin)}}
+            </div>
+            </div>
+
+            <div class="col-lg-12 mt-4 background-subcontainer-section px-4">
+             {{form_widget(selectionFiltres.typeParticule)}}
+            </div>
+
+            <div class="col-lg-12 mt-4 background-subcontainer-section px-4">
+             {{form_widget(selectionFiltres.capteurs)}}
+            </div>
+
+            <div class="col-lg-12 my-4 background-subcontainer-section px-4">
+             {{form_widget(selectionFiltres.typeGraphique)}}
+            </div>
+           
+        </div>
+    </div>
+
+    <div class="col-lg-9 col-md-8 col-sm-12 pl-5">
+        <div class="row background-container-section px-4 overflow-filtre">
+            
+            <div class="col-lg-4 offset-lg-4">
+                <div class="d-flex justify-content-end pr-5">
+                    <h4>{{titreGraphique}}</h4>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 offset-lg-1">
+                <div class="d-flex justify-content-end">
+                    <div class="">
+                        {{ form_widget(selectionFiltres.Modifier, {'attr': {'class': 'button-custom'}}) }}
+                    </div>    
+                    <div class="ml-3">
+                        {{ form_widget(selectionFiltres.Exporter, {'attr': {'class': 'button-custom'}}) }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+      {{form_end(selectionFiltres)}} 
 
 {% endblock %}
 
