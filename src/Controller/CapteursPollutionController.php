@@ -60,13 +60,13 @@ class CapteursPollutionController extends AbstractController
             if(sizeof($filtres['typeParticule']) > 1){
                 $relevesPm25 = $repositoryReleve->findByPm25($filtres['dateDebut'], $filtres['dateFin'], $filtres['capteurs']);
                 $relevesPm10 = $repositoryReleve->findByPm10($filtres['dateDebut'], $filtres['dateFin'], $filtres['capteurs']);
-                return $this->render('capteurs_pollution/genererGraphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25, 'typeGraphique' => $filtres['typeGraphique']]);
+                return $this->render('capteurs_pollution/genererGraphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut'],'dateFin' => $filtres['dateFin']]);
             }elseif ($filtres['typeParticule'][0] == 'pm25') {
                 $relevesPm25 = $repositoryReleve->findByPm25($filtres['dateDebut'], $filtres['dateFin'], $filtres['capteurs']);
-                return $this->render('capteurs_pollution/genererGraphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => null, 'relevesPm25' => $relevesPm25, 'typeGraphique' => $filtres['typeGraphique']]);
+                return $this->render('capteurs_pollution/genererGraphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => null, 'relevesPm25' => $relevesPm25, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut'],'dateFin' => $filtres['dateFin']]);
             }else{
                 $relevesPm10 = $repositoryReleve->findByPm10($filtres['dateDebut'], $filtres['dateFin'], $filtres['capteurs']);
-                return $this->render('capteurs_pollution/genererGraphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => null, 'typeGraphique' => $filtres['typeGraphique']]);
+                return $this->render('capteurs_pollution/genererGraphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => null, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut'],'dateFin' => $filtres['dateFin']]);
             }
             
         }   

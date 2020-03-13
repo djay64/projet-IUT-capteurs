@@ -20,9 +20,13 @@
            var ctx = document.getElementById('myChart').getContext('2d');
            var heure = new Date().getHours();
            var heures = [];
-
-        for(var indice = 1; i <= 24; i++){
-            heures[indice] = heureActuelle;
+           var heure = new Date().getHours();
+           var heurePourLeTableau = heure;
+           var heures = [];
+           //création du tableau des labels 
+        for(var i = 0; i <= parseInt(heure); i++){
+            heures[i] = -(parseInt(heure)-parseInt(heurePourLeTableau));
+            heurePourLeTableau = parseInt(heurePourLeTableau)+1;
         }
 
         console.log(heures);
@@ -51,7 +55,7 @@
              var myChart = new Chart(ctx, {
                 type: '{{ typeGraphique }}',
                 data: {
-                    labels: ['00h','03h','06h','09h','12h','15h','18h','21h','00h'],
+                    labels: heures,
                     datasets: [{
                         label: "PM 10",
                         data: relevesPm10, 

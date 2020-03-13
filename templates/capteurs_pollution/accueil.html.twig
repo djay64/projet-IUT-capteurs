@@ -17,6 +17,14 @@
     <script language="javascript">
         
            var ctx = document.getElementById('myChart').getContext('2d');
+           var heure = new Date().getHours();
+           var heurePourLeTableau = heure;
+           var heures = [];
+           //création du tableau des labels 
+        for(var i = 0; i <= parseInt(heure); i++){
+            heures[i] = -(parseInt(heure)-parseInt(heurePourLeTableau));
+            heurePourLeTableau = parseInt(heurePourLeTableau)+1;
+        }
         
             /* ******** POUR DIAGRAMME EN LIGNE PM10 ********** */
             //création des tableaux de releves
@@ -42,7 +50,7 @@
              var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['00h','03h','06h','09h','12h','15h','18h','21h','00h'],
+                    labels: heures,
                     datasets: [{
                         label: "PM 10",
                         data: relevesPm10, 
