@@ -1,7 +1,80 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <script src="Chart.js"></script>
+{% endblock %}  
+
 {% block body %}
 <h1>Generer un graphique</h1>
 {{form_start(selectionFiltres)}}
+<button>Génerer le graphique</button>
 {{form_end(selectionFiltres)}}
+
+<div style="width:50%">
+    <canvas id="myChart" width="100" height="100"></canvas>
+    </div>
+    {% set i = 0 %}
+    
+    <script language="javascript">
+        
+           var ctx = document.getElementById('myChart').getContext('2d');
+           var heure = new Date().getHours();
+           var heures = [];
+
+        for(var indice = 1; i <= 24; i++){
+            heures[indice] = heureActuelle;
+        }
+
+        console.log(heures);
+        
+            /* ******** POUR DIAGRAMME EN LIGNE PM10 ********** */
+            //création des tableaux de releves
+            var relevesPm10 = Array();
+           var i = 0;
+           '{% for rel in relevesPm10 %}'
+                '{% for r in rel %}'
+                    relevesPm10[i] = '{{r}}';
+                    i++;
+                '{% endfor %}'
+            '{% endfor %}'
+            var relevesPm25 = Array();
+           var i = 0;
+           '{% for rel in relevesPm25 %}'
+                '{% for r in rel %}'
+                    relevesPm25[i] = '{{r}}';
+                    i++;
+                '{% endfor %}'
+            '{% endfor %}'
+
+
+
+             var myChart = new Chart(ctx, {
+                type: '{{ typeGraphique }}',
+                data: {
+                    labels: ['00h','03h','06h','09h','12h','15h','18h','21h','00h'],
+                    datasets: [{
+                        label: "PM 10",
+                        data: relevesPm10, 
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                    },
+                    {
+                        label: "PM 2.5",
+                        data: relevesPm25, 
+                        backgroundColor: [
+                            'rgba(99, 255, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(99, 255, 132, 1)'
+                        ],
+                    }]
+                },
+                options: {
+                }
+            });
+    </script>
 {% endblock %}

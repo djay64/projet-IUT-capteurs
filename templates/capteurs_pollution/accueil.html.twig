@@ -1,3 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}<H1> Bienvenue sur le site des relevés de capteurs de pollution du BAB{% endblock %}
+
+{% block stylesheets %}  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="Chart.js"></script>
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'></script>
+{% endblock %}    
+
+{% block body %}
+    <H1> Bienvenue sur le site des relevés de capteurs de pollution du BAB</H1>
+    <div style="width:50%">
+    <canvas id="myChart" width="100" height="100"></canvas>
+    </div>
+    {% set i = 0 %}
+    
+    <script language="javascript">
+        
+           var ctx = document.getElementById('myChart').getContext('2d');
+        
+            /* ******** POUR DIAGRAMME EN LIGNE PM10 ********** */
+            //création des tableaux de releves
+            var relevesPm10 = Array();
+           var i = 0;
+           '{% for rel in relevesPm10 %}'
+                '{% for r in rel %}'
+                    relevesPm10[i] = '{{r}}';
+                    i++;
+                '{% endfor %}'
+            '{% endfor %}'
+            var relevesPm25 = Array();
+           var i = 0;
+           '{% for rel in relevesPm25 %}'
+                '{% for r in rel %}'
+                    relevesPm25[i] = '{{r}}';
+                    i++;
+                '{% endfor %}'
+            '{% endfor %}'
+
+
+
+             var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['00h','03h','06h','09h','12h','15h','18h','21h','00h'],
+                    datasets: [{
+                        label: "PM 10",
+                        data: relevesPm10, 
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                    },
+                    {
+                        label: "PM 2.5",
+                        data: relevesPm25, 
+                        backgroundColor: [
+                            'rgba(99, 255, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(99, 255, 132, 1)'
+                        ],
+                    }]
+                },
+                options: {
+                }
+            });
+
+            
+    </script>
+
+{% endblock %}
