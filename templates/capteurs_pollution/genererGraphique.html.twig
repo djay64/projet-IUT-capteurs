@@ -17,8 +17,15 @@
     
     <script language="javascript">
         
+        //instanciation  de l'élément graphique
            var ctx = document.getElementById('myChart').getContext('2d');
-           var heure = new Date().getHours();
+        
+        
+        
+        // GESTION GRAPHIQUE LIGNE ET BARRE 
+        
+        if('{{typeGraphique}}' == "line" || '{{typeGraphique}}' == "bar" || '{{typeGraphique}}' == "radar"){
+            var heure = new Date().getHours();
            var heurePourLeTableau = heure;
            var heures = [];
            var nbJours =  parseInt('{{dateFin}}')-parseInt('{{dateDebut}}');
@@ -29,44 +36,53 @@
            }
            
            //création du tableau des labels 
-        for(var i = 0; i <= parseInt(heure)+(24*nbJours); i++){
-            if(-(parseInt(heure)-parseInt(heurePourLeTableau)) == 24){
-                heurePourLeTableau = heure;
-                indice ++ ;
-                //pour remettre indice en string et pouvoir utiliser les fonction dela classe string
-                indice = indice.toString();
-                if (indice.length <= 3){
-                    indice = '0' + indice;
-                }
+            for(var i = 0; i <= parseInt(heure)+(24*nbJours); i++){
+                if(-(parseInt(heure)-parseInt(heurePourLeTableau)) == 24){
+                    heurePourLeTableau = heure;
+                    indice ++ ;
+                    //pour remettre indice en string et pouvoir utiliser les fonction dela classe string
+                    indice = indice.toString();
+                    if (indice.length <= 3){
+                        indice = '0' + indice;
+                    }
             }
 
             heures[i] = -(parseInt(heure)-parseInt(heurePourLeTableau))+'H le '+indice.substring(0,2)+'/'+indice.substring(2,4);
             heurePourLeTableau = parseInt(heurePourLeTableau)+1;
-        }
-
-        console.log(heures);
+            }
         
-            /* ******** POUR DIAGRAMME EN LIGNE PM10 ********** */
-            //création des tableaux de releves
-            var relevesPm10 = Array();
-           var i = 0;
-           '{% for rel in relevesPm10 %}'
-                '{% for r in rel %}'
-                    relevesPm10[i] = '{{r}}';
-                    i++;
+           
+            //création des tableaux de releves et de couleur de fond
+                var relevesPm10 = Array();
+                var backgroundPm10 = Array();
+                var borderPm10 = Array();
+                var i = 0;
+                '{% for rel in relevesPm10 %}'
+                    '{% for r in rel %}'
+                        relevesPm10[i] = '{{r}}';
+                        backgroundPm10[i] = 'rgba(255, 99, 132, 0.2)';
+                        borderPm10[i] = 'rgba(255, 99, 132, 1)';
+                        i++;
+                    '{% endfor %}'
                 '{% endfor %}'
-            '{% endfor %}'
-            var relevesPm25 = Array();
-           var i = 0;
-           '{% for rel in relevesPm25 %}'
-                '{% for r in rel %}'
-                    relevesPm25[i] = '{{r}}';
-                    i++;
+
+                var relevesPm25 = Array();
+                var backgroundPm25 = Array();
+                var borderPm25 = Array();
+                var i = 0;
+                '{% for rel in relevesPm25 %}'
+                    '{% for r in rel %}'
+                        relevesPm25[i] = '{{r}}';
+                        backgroundPm25[i] = 'rgba(99, 255, 132, 0.2)';
+                        borderPm25[i] = 'rgba(99, 255, 132, 0.2)';
+                        i++;
+                    '{% endfor %}'
                 '{% endfor %}'
-            '{% endfor %}'
+            
+          
+            
 
-
-
+            if(relevesPm10 != ""  && relevesPm25 != ""){
              var myChart = new Chart(ctx, {
                 type: '{{ typeGraphique }}',
                 data: {
@@ -74,26 +90,58 @@
                     datasets: [{
                         label: "PM 10",
                         data: relevesPm10, 
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)'
-                        ],
+                        backgroundColor: backgroundPm10,
+                        borderColor: borderPm10,
                     },
                     {
                         label: "PM 2.5",
                         data: relevesPm25, 
-                        backgroundColor: [
-                            'rgba(99, 255, 132, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(99, 255, 132, 1)'
-                        ],
+                        backgroundColor: backgroundPm25,
+                        borderColor: borderPm25,
                     }]
                 },
                 options: {
                 }
-            });
+                });
+            }
+            else if(relevesPm10 == "" ){
+                var myChart = new Chart(ctx, {
+                type: '{{ typeGraphique }}',
+                data: {
+                    labels: heures,
+                    datasets: [
+                    {
+                        label: "PM 2.5",
+                        data: relevesPm25, 
+                        backgroundColor: backgroundPm25,
+                        borderColor: borderPm25,
+                    }]
+                },
+                options: {
+                }
+                });
+            }
+            else{
+                var myChart = new Chart(ctx, {
+                type: '{{ typeGraphique }}',
+                data: {
+                    labels: heures,
+                    datasets: [
+                    {
+                        label: "PM 10",
+                        data: relevesPm10, 
+                        backgroundColor: backgroundPm10,
+                        borderColor: borderPm10,
+                    }]
+                },
+                options: {
+                }
+                });
+            }
+    }
+    else if('{{typeGraphique}}' == "radar"){
+
+    }
+           
     </script>
 {% endblock %}

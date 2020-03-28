@@ -42,6 +42,7 @@ class CapteursPollutionController extends AbstractController
         $saisieFiltres = ['titre' => 'Titre du graphique'];
         $relevesPm10 = $repositoryReleve->findByPm10MoyJour();
         $relevesPm25 = $repositoryReleve->findByPm25MoyJour();
+        $dateDuJour = date("md"); 
 
         $formulaireFiltres = $this->createFormBuilder($saisieFiltres)
         ->add('titre', TextType::class)
@@ -71,7 +72,7 @@ class CapteursPollutionController extends AbstractController
             
         }   
         
-        return $this->render('capteurs_pollution/genererGraphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25, 'typeGraphique' => 'line']);
+        return $this->render('capteurs_pollution/genererGraphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25, 'typeGraphique' => 'line','dateDebut' => $dateDuJour,'dateFin' =>$dateDuJour]);
     }
 
 }
