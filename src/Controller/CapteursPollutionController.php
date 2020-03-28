@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Entity\Capteur;
+use App\Entity\Releve;
 
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Twig\Environment;
@@ -31,28 +33,55 @@ class CapteursPollutionController extends AbstractController
      */
     public function accueil()
     {
-        return $this->render('capteurs_pollution/accueil.html.twig');
+        $repositoryReleve = $this->getDoctrine()->getRepository(Releve::class);
+        $relevesPm10 = $repositoryReleve->findByPm10MoyJour();
+        $relevesPm25 = $repositoryReleve->findByPm25MoyJour();
+        return $this->render('capteurs_pollution/accueil.html.twig', ['relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25]);
     }
     
     /**
      * @Route("/graphique", name="capteurs_pollution_graphique")
      */
     public function genererGraphique(Request $requete){
+        $repositoryReleve = $this->getDoctrine()->getRepository(Releve::class);
         $saisieFiltres = ['titre' => 'Titre du graphique'];
+        $relevesPm10 = $repositoryReleve->findByPm10MoyJour();
+        $relevesPm25 = $repositoryReleve->findByPm25MoyJour();
+        $dateDuJour = date("md"); 
 
         $formulaireFiltres = $this->createFormBuilder($saisieFiltres)
         ->add('titre', TextType::class)
-        ->add('dateDebut', DateType::class, ['widget' => 'single_text'])
-        ->add('dateFin', DateType::class, ['widget' => 'single_text'])
-        ->add('typeParticule', ChoiceType::class, ['choices' => ['PM 2.5' => 'pm25', 'PM 10' => 'pm10'], 'expanded' => true, 'multiple' => true])
-        ->add('capteurs', ChoiceType::class, ['choices' => ['Capteur 1' => 'capteur1', 'Capteur 2' => 'capteur2', 'Capteur 3' => 'capteur3'], 'expanded' => false, 'multiple' => true])
-        ->add('typeGraphique', ChoiceType::class, ['choices' => ['Barre' => 'barre', 'Baton' => 'baton', 'Histogramme' => 'histogramme', 'Radar' => 'radar', 'Nuage de points' => 'nuage', 'Secteur' => 'secteur', 'Courbe' => 'courbe', 'Aires' => 'aire'], 'expanded' => true, 'multiple' => false])
+        ->add('dateDebut', DateType::class, ['label' => 'Début', 'widget' => 'single_text'])
+        ->add('dateFin', DateType::class, ['label' => 'Fin', 'widget' => 'single_text'])
+        ->add('typeParticule', ChoiceType::class, ['label' => 'Particules', 'choices' => ['PM 2.5' => 'pm25', 'PM 10' => 'pm10'], 'expanded' => true, 'multiple' => true, 'empty_data' => ['pm25', 'pm10']])
+        ->add('capteurs', ChoiceType::class, ['label' => 'Capteurs', 'choices' => ['Capteur 1' => 'Capteur1', 'Capteur 2' => 'Capteur2', 'Capteur 3' => 'Capteur3'], 'expanded' => false, 'multiple' => true])
+        ->add('typeGraphique', ChoiceType::class, ['label' => 'Type de graphique', 'choices' => ['Barre' => 'bar', 'Ligne' => 'line', 'Radar' => 'radar', 'Secteur' => 'pie', 'Donut' => 'doughnut', 'Polaire' => 'polarArea'], 'expanded' => true, 'multiple' => false])
         ->add('Modifier', SubmitType::class)
         ->add('Exporter', SubmitType::class)
         ->getForm();
+        
+        $formulaireFiltres->handleRequest($requete);
+        
+        if($formulaireFiltres->isSubmitted() && $formulaireFiltres->isValid()){       
+            $filtres = $formulaireFiltres->getData();
 
-        return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'titreGraphique'=>'Titre du Graphique']);
-    } 
+            if(sizeof($filtres['typeParticule']) > 1){
+                $relevesPm25 = $repositoryReleve->findByPm25($filtres['dateDebut'], $filtres['dateFin'], $filtres['capteurs']);
+                $relevesPm10 = $repositoryReleve->findByPm10($filtres['dateDebut'], $filtres['dateFin'], $filtres['capteurs']);
+                return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut']->format('md') ,'dateFin' => $filtres['dateFin']->format('md') ]);
+            }elseif ($filtres['typeParticule'][0] == 'pm25') {
+                $relevesPm25 = $repositoryReleve->findByPm25($filtres['dateDebut'], $filtres['dateFin'], $filtres['capteurs']);
+                return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => null, 'relevesPm25' => $relevesPm25, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut']->format('md') ,'dateFin' => $filtres['dateFin']->format('md') ]);
+            }else{
+                $relevesPm10 = $repositoryReleve->findByPm10($filtres['dateDebut'], $filtres['dateFin'], $filtres['capteurs']);
+                return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => null, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut']->format('md'),'dateFin' => $filtres['dateFin']->format('md')]);
+            }
+            
+        }   
+        
+        return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25, 'typeGraphique' => 'line','dateDebut' => $dateDuJour,'dateFin' =>$dateDuJour]);
+    }
+
 
     /**
      * @Route("/gestionCapteurs/{typeAction}/{nomCapteur}", name="capteurs_pollution_gestionCapteur")
