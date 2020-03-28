@@ -19,13 +19,28 @@
         
            var ctx = document.getElementById('myChart').getContext('2d');
            var heure = new Date().getHours();
-           var heures = [];
-           var heure = new Date().getHours();
            var heurePourLeTableau = heure;
            var heures = [];
+           var nbJours =  parseInt('{{dateFin}}')-parseInt('{{dateDebut}}');
+           var indice = '{{dateDebut}}';
+           //pour ajouter un 0 aux mois de janvier à septembre
+           if (indice.length <= 3){
+               indice = '0' + indice;
+           }
+           
            //création du tableau des labels 
-        for(var i = 0; i <= parseInt(heure); i++){
-            heures[i] = -(parseInt(heure)-parseInt(heurePourLeTableau));
+        for(var i = 0; i <= parseInt(heure)+(24*nbJours); i++){
+            if(-(parseInt(heure)-parseInt(heurePourLeTableau)) == 24){
+                heurePourLeTableau = heure;
+                indice ++ ;
+                //pour remettre indice en string et pouvoir utiliser les fonction dela classe string
+                indice = indice.toString();
+                if (indice.length <= 3){
+                    indice = '0' + indice;
+                }
+            }
+
+            heures[i] = -(parseInt(heure)-parseInt(heurePourLeTableau))+'H le '+indice.substring(0,2)+'/'+indice.substring(2,4);
             heurePourLeTableau = parseInt(heurePourLeTableau)+1;
         }
 
