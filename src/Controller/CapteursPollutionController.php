@@ -36,7 +36,47 @@ class CapteursPollutionController extends AbstractController
         $repositoryReleve = $this->getDoctrine()->getRepository(Releve::class);
         $relevesPm10 = $repositoryReleve->findByPm10MoyJour();
         $relevesPm25 = $repositoryReleve->findByPm25MoyJour();
-        return $this->render('capteurs_pollution/accueil.html.twig', ['relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25]);
+
+        $globalArrayNiveauPm10 = $repositoryReleve->findByPm10Heure(); 
+        $niveauActuelParticulePm10 = $globalArrayNiveauPm10[0][1];
+        $niveauActuelParticulePm10 = substr($niveauActuelParticulePm10, 0, 4);
+        
+
+
+        if ( $niveauActuelParticulePm10 >= 0 && $niveauActuelParticulePm10 < 10 ) {
+            $couleurParticulePm10 = "bg-success";
+        }  
+        if ( $niveauActuelParticulePm10 >= 10 && $niveauActuelParticulePm10 < 20 ) {
+            $couleurParticulePm10 = "bg-warning";
+        }  
+        if ( $niveauActuelParticulePm10 >= 20 ) {
+            $couleurParticulePm10 = "bg-danger";
+        }  
+
+
+
+        
+        $globalArrayNiveauPm25 = $repositoryReleve->findByPm25Heure(); 
+        $niveauActuelParticulePm25 = $globalArrayNiveauPm25[0][1];
+        $niveauActuelParticulePm25 = substr($niveauActuelParticulePm25, 0, 4);
+
+        if ( $niveauActuelParticulePm25 >= 0 && $niveauActuelParticulePm25 < 10 ) {
+            $couleurParticulePm25 = "bg-success";
+        } 
+        if ( $niveauActuelParticulePm25 >= 10 && $niveauActuelParticulePm25 < 20 ) {
+            $couleurParticulePm25 = "bg-warning";
+        }  
+        if ( $niveauActuelParticulePm25 >= 20 ) {
+            $couleurParticulePm25 = "bg-danger";
+        }   
+
+
+
+
+
+
+
+        return $this->render('capteurs_pollution/accueil.html.twig', ['relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25, 'particulePm10' => $niveauActuelParticulePm10,  'particulePm25' => $niveauActuelParticulePm25, 'couleurPm10' => $couleurParticulePm10, 'couleurPm25' => $couleurParticulePm25]);
     }
     
     /**

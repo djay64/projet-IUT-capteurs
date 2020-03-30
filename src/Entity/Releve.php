@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Releve
  *
- * @ORM\Table(name="releve", indexes={@ORM\Index(name="IDX_DDABFF831708A229", columns={"capteur_id"})})
+ * @ORM\Table(name="releve", indexes={@ORM\Index(name="releve_ibfk_1", columns={"capteur_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\ReleveRepository")
  */
 class Releve
@@ -43,14 +43,25 @@ class Releve
     private $dateHeure;
 
     /**
-     * @var \Capteur
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Capteur")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="capteur_id", referencedColumnName="nom")
-     * })
+     * @ORM\Column(name="capteur_id", type="string", length=50, nullable=false)
      */
-    private $capteur;
+    private $capteurId;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="heure", type="integer", nullable=true)
+     */
+    private $heure;
+
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="date", type="date", nullable=true)
+     */
+    private $date;
 
     public function getId(): ?int
     {
@@ -93,14 +104,38 @@ class Releve
         return $this;
     }
 
-    public function getCapteur(): ?Capteur
+    public function getCapteurId(): ?string
     {
-        return $this->capteur;
+        return $this->capteurId;
     }
 
-    public function setCapteur(?Capteur $capteur): self
+    public function setCapteurId(string $capteurId): self
     {
-        $this->capteur = $capteur;
+        $this->capteurId = $capteurId;
+
+        return $this;
+    }
+
+    public function getHeure(): ?int
+    {
+        return $this->heure;
+    }
+
+    public function setHeure(?int $heure): self
+    {
+        $this->heure = $heure;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }
