@@ -19,15 +19,17 @@
             <th scope="col">Latitude</th>
             <th scope="col">Longitude</th>
           </tr>
-          {% for numeroCapteur in 0..30 %}
+          {% set i = 1 %}
+          {% for capteur in capteurs %}
             <tr>
           {#<a href="{{ path('capteurs_pollution_gestionCapteur') }}/modifierOuSupprimer/{{nomCapteur }}">#}
-              <td> {{ numeroCapteur }}</td>
-              <td> Nom du capteur</td>
-              <td> Latitude </td>
-              <td> Longitude </td>
+              <td> {{ i }}</td>
+              <td> {{capteur.nom}}</td>
+              <td> {{capteur.latitude}} </td>
+              <td> {{capteur.longitude}} </td>
           {#</a>#}
             </tr>
+            {% set i = i + 1 %}
           {% endfor %}
         </table>
         </div>
