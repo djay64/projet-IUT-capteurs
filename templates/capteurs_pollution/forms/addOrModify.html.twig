@@ -6,10 +6,20 @@
 
 {% endblock %}
 
-{% block form %}
- 
-    <p>Nom du capteur : {{ nomDuCapteur }}</p>
-    
+{% block form %} 
+    {{form_start(formCapteur)}}
+    <div class="row mt-3">
+
+        <div class="col-lg-3 col-md-12 pr-5">
+            <label class="form-text ">Nom : </label>
+        </div> 
+
+        <div class="col-lg-9 col-md-12">
+            <span>{{form_widget(formCapteur.nom, {'attr': {'class': 'form-control-sm'}})}}</span>
+        </div>
+
+    </div>   
+
     <div class="row mt-3">
 
         <div class="col-lg-3 col-md-12 pr-5">
@@ -17,7 +27,7 @@
         </div> 
 
         <div class="col-lg-9 col-md-12">
-            <span>{{form_widget(form.latitude, {'attr': {'class': 'form-control-sm'}})}}</span>
+            <span>{{form_widget(formCapteur.latitude, {'attr': {'class': 'form-control-sm'}})}}</span>
         </div>
 
     </div>    
@@ -30,7 +40,7 @@
         </div> 
 
         <div class="col-lg-9 col-md-12">
-            <span>{{form_widget(form.longitude, {'attr': {'class': 'form-control-sm'}})}}</span>
+            <span>{{form_widget(formCapteur.longitude, {'attr': {'class': 'form-control-sm'}})}}</span>
         </div>
 
     </div>  
@@ -39,8 +49,16 @@
 
 
     <div class="d-flex justify-content-end">
-        <div class="p-2"><a href="{{ path('capteurs_pollution_gestionCapteur') }}"><button type="button" class="btn button-custom">Annuler</button></a></div>
-        <div class="p-2"><button type="button" class="btn button-custom">{{typeAction}}</button></div> 
+        <div class="p-2">
+            <a href="{{ path('capteurs_pollution_gestionCapteur') }}">
+            <button type="button" class="btn button-custom">Annuler</button>
+            </a>
+        </div>
+
+        <div class="p-2">
+            <button type="submit" class="btn button-custom">{{typeAction}}</button>
+        </div> 
     </div>
+    {{form_end(formCapteur)}}
 {% endblock %}
           

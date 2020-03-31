@@ -17,8 +17,7 @@ class Capteur
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id 
      */
     private $nom;
 
@@ -39,6 +38,13 @@ class Capteur
     public function getNom(): ?string
     {
         return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
     }
 
     public function getLatitude(): ?float

@@ -9,11 +9,11 @@
 {% block form %}
 
 	<p>Nom du capteur :
-		{{ nomDuCapteur }}</p>
+		{{ capteur.nom }}</p>
 	<p>Latitude :
-		{{ latitude }}</p>
+		{{ capteur.latitude }}</p>
 	<p>Longitude :
-		{{ longitude }}</p>
+		{{ capteur.longitude }}</p>
 
 
 	<div class="d-flex justify-content-end">
@@ -23,14 +23,17 @@
 			</a>
 		</div>
 		<div class="p-2">
-			<a href="{{ path('capteurs_pollution_gestionCapteur') }}/modifier/{{nomDuCapteur }}">
+			{% set urlPourModifier = capteur.nom%} 
+			<a href="{{ path('modifierCapteur', { 'nomCapteur': urlPourModifier }) }}">
 				<button type="button" class="btn button-custom">Modifier</button>
 			</a>
 		</div>
 		<div class="p-2">
-			<a href="{{ path('capteurs_pollution_gestionCapteur') }}/supprimer/{{nomDuCapteur }}">
+			<a href="{{ path('supprimerrCapteur', { 'nomCapteur': urlPourModifier }) }}">
 				<button type="button" class="btn button-custom">Supprimer</button>
 			</a>
 		</div>
 	</div>
+
+
 {% endblock %}

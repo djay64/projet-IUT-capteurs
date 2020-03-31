@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response; 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -12,6 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Capteur;
 use App\Entity\Releve;
+
+
+use Doctrine\Common\Persistence\ObjectManager;
+
+
 
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Twig\Environment;
@@ -124,116 +130,6 @@ class CapteursPollutionController extends AbstractController
 
 
     /**
-     * @Route("/gestionCapteurs2/{typeAction}/{nomCapteur}", name="capteurs2_pollution_gestionCapteur")
-     */
-    public function gestionCapteur2(Request $request, Environment $twig, $nomCapteur = "noVariable", $typeAction ="basicAction")
-    {
-        if ($typeAction == "basicAction") {
-            $defaultData = ['message' => 'Type your message here'];
-            $form = $this->createFormBuilder($defaultData)
-            ->add('nomDuCapteur')
-            ->getForm();
-    
-            $form->handleRequest($request);
-    
-            if ($form->isSubmitted()) {
-                $data = $form->getData();
-
-
-                if (false) {
-                    
-                    return $this->redirectToRoute('capteurs_pollution_gestionCapteur', ['typeAction' =>'ajouter' ,'nomCapteur' => $data["nomDuCapteur"]]);
-
-                } else {
-                    
-                    return $this->redirectToRoute('capteurs_pollution_gestionCapteur', ['typeAction' =>'modifierOuSupprimer' ,'nomCapteur' => $data["nomDuCapteur"]]);
-                  
-                }
-                
-            }
-            return $this->render('capteurs_pollution/gestion-capteurs.html.twig', ['form'=>$form->createView(), 'nomCapteur'=>'Un capteur']);
-        }
-    
-
-
-
-        if ($typeAction == "modifierOuSupprimer") {
-            $nomDuCapteur = $nomCapteur;
-            $latitude = "latitude";
-            $longitude = "longitude";
-            return $this->render('capteurs_pollution/forms/modifyOrDelet.html.twig', ['nomDuCapteur'=>$nomCapteur,'latitude'=>$latitude, 'longitude'=>$longitude]);
-        }
-
-
-
-        if ($typeAction == "ajouter") {
-            $nomDuCapteur = $nomCapteur;
-            $latitude = "latitude";
-            $longitude = 1;
-            $typeAction = "Ajouter";
-
-
-
-            $defaultData = ['message' => 'Type your message here'];
-            $form = $this->createFormBuilder($defaultData)
-            ->add('latitude')
-            ->add('longitude')
-            ->getForm();
-    
-            $form->handleRequest($request);
-    
-            if ($form->isSubmitted()) {
-            }
-
-                
-            return $this->render('capteurs_pollution/forms/addOrModify.html.twig', ['form'=>$form->createView(), 'nomDuCapteur'=>$nomDuCapteur, 'typeAction'=>$typeAction ,'latitude'=>$latitude, 'longitude'=>$longitude]);
-        }
-
-
- 
-
-
-
-        if ($typeAction == "modifier") {
-            $nomDuCapteur = $nomCapteur;
-            $latitude = "latitude";
-            $longitude = "longitude";
-            $typeAction = "Modifier";
-
-            $defaultData = ['message' => 'Type your message here'];
-            $form = $this->createFormBuilder($defaultData)
-            ->add('latitude', TextType::class, ['data' => $latitude])
-            ->add('longitude', TextType::class, ['data' => $longitude])
-            ->getForm();
-    
-            $form->handleRequest($request);
-    
-            if ($form->isSubmitted()) {
-            }
-
-            return $this->render('capteurs_pollution/forms/addOrModify.html.twig', ['form'=>$form->createView(), 'nomDuCapteur'=>$nomDuCapteur, 'typeAction'=>$typeAction, 'latitude'=>$latitude, 'longitude'=>$longitude]);
-        }
-
-
-
-
-
-        if ($typeAction == "supprimer") {
-            $nomDuCapteur = $nomCapteur;
-                
-        }
-
-    }
-
-
-
-
-
-
-
-
-
-    /**
      * @Route("/gestionCapteurs/", name="capteurs_pollution_gestionCapteur")
      */
     public function gestionCapteur(Request $request)
@@ -251,11 +147,14 @@ class CapteursPollutionController extends AbstractController
             if ($form->isSubmitted()) {
                 $data = $form->getData();
 
-
-                if (false) {
+                $repositoryCapteur = $this->getDoctrine()->getRepository(Capteur::class);
+                $resultatFinByNom = $repositoryCapteur->findByNom($data["nomDuCapteur"]);  
+                
+                
+                if (sizeof($resultatFinByNom) == 0){
                     
-                    return $this->redirectToRoute('capteurs_pollution_gestionCapteur', ['typeAction' =>'ajouter' ,'nomCapteur' => $data["nomDuCapteur"]]);
-
+                    return $this->redirectToRoute('ajouterCapteur', ['nomCapteur' => $data["nomDuCapteur"]]);
+   
                 } else {
                     
                     return $this->redirectToRoute('ModifierSupprimerCapteur', ['nomCapteur' => $data["nomDuCapteur"]]);
@@ -269,43 +168,18 @@ class CapteursPollutionController extends AbstractController
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * @Route("/gestionCapteurs/modifierOuSupprimer/{nomCapteur}", name="ModifierSupprimerCapteur")
      */
     public function modifierOuSupprimer(Request $request, Capteur $nomCapteur)
     {
         $repositoryCapteur = $this->getDoctrine()->getRepository(Capteur::class);
-        $listeCapteur = $repositoryCapteur->customfindAll();
-
-        $nomDuCapteur = $nomCapteur;
-        $latitude = "latitude";
-        $longitude = 1;
-        $typeAction = "Ajouter";
+        $listeCapteur = $repositoryCapteur->findAll();
+        $resultatFinByNom = $repositoryCapteur->findByNom($nomCapteur);  
+        $capteurCible = $resultatFinByNom[0];
 
 
-
+        $defaultData = ['message' => 'Type your message here']; 
         $form = $this->createFormBuilder($nomCapteur)
         ->add('latitude')
         ->add('longitude')
@@ -317,125 +191,91 @@ class CapteursPollutionController extends AbstractController
         }
 
             
-        return $this->render('capteurs_pollution/forms/modifyOrDelet.html.twig', ['form'=>$form->createView(), 'nomDuCapteur'=>$nomCapteur, 'typeAction'=>$typeAction ,'latitude'=>$latitude, 'longitude'=>$longitude, 'capteurs'=> $listeCapteur, 'capteur' => $nomCapteur, 'capteurCible' => $capteurCible]);
+        return $this->render('capteurs_pollution/forms/modifyOrDelet.html.twig', ['form'=>$form->createView(), 'capteur' => $capteurCible, 'capteurs'=> $listeCapteur ]);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**
      * @Route("/gestionCapteurs/ajouter/{nomCapteur}", name="ajouterCapteur")
      */
-    public function ajouterCapteur(Request $request)
+    public function ajouterCapteur(Request $request, string $nomCapteur)
     {
         $repositoryCapteur = $this->getDoctrine()->getRepository(Capteur::class);
-        $listeCapteur = $repositoryCapteur->customfindAll();
+        $listeCapteur = $repositoryCapteur->findAll();
+ 
 
-        $nomDuCapteur = $nomCapteur;
-        $latitude = "latitude";
-        $longitude = 1;
-        $typeAction = "Ajouter";
+        $nouveauCapteur = new Capteur(); 
 
-        $capteur = new Capteur();
-
-        $defaultData = ['message' => 'Type your message here'];
-        $form = $this->createFormBuilder($capteur)
-        ->add('latitude')
-        ->add('longitude')
+        $formCapteur = $this->createFormBuilder($nouveauCapteur)
+        ->add('nom',  TextType::class, ['data' => $nomCapteur, 'empty_data' => $nomCapteur])
+        ->add('latitude', TextType::class)
+        ->add('longitude', TextType::class)
+        
         ->getForm();
 
-        $form->handleRequest($request);
+        $formCapteur->handleRequest($request);
+ 
 
-        if ($form->isSubmitted()) {
+        if ($formCapteur->isSubmitted()) {
+ 
+                $this->getDoctrine()->getManager()->persist($nouveauCapteur);
+                $this->getDoctrine()->getManager()->flush(); 
+                return $this->redirectToRoute('capteurs_pollution_gestionCapteur');
+ 
+            
         }
 
             
-        return $this->render('capteurs_pollution/forms/addOrModify.html.twig', ['form'=>$form->createView(), 'nomDuCapteur'=>$nomCapteur, 'typeAction'=>$typeAction ,'latitude'=>$latitude, 'longitude'=>$longitude, 'capteurs'=> $listeCapteur, 'capteur' => $nomCapteur]);
+        return $this->render('capteurs_pollution/forms/addOrModify.html.twig', ['formCapteur'=>$formCapteur->createView(),'typeAction'=>"ajouter", 'capteurs'=> $listeCapteur]);
 
     }
     
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * @Route("/gestionCapteurs/modifier/{nomCapteur}", name="modifierCapteur")
      */
-    public function modifierCapteur(Request $request, Capteur $capteur)
+    public function modifierCapteur(Request $request, Capteur $nomCapteur)
     {
         $repositoryCapteur = $this->getDoctrine()->getRepository(Capteur::class);
-        $listeCapteur = $repositoryCapteur->customfindAll();
-
-        $nomDuCapteur = $nomCapteur;
-            $latitude = "latitude";
-            $longitude = "longitude";
-            $typeAction = "Modifier";
-
-            $defaultData = ['message' => 'Type your message here'];
-            $form = $this->createFormBuilder($capteur)
-            ->add('latitude', TextType::class, ['data' => $latitude])
-            ->add('longitude', TextType::class, ['data' => $longitude])
-            ->getForm();
+        $listeCapteur = $repositoryCapteur->findAll();
+        $resultatFinByNom = $repositoryCapteur->findByNom($nomCapteur);  
+        $capteurCible = $resultatFinByNom[0];
+ 
+        $formCapteur = $this->createFormBuilder($capteurCible)
+        ->add('nom', TextType::class, ['disabled' => true])
+        ->add('latitude', TextType::class)
+        ->add('longitude', TextType::class) 
+        ->getForm();
     
-            $form->handleRequest($request);
+        $formCapteur->handleRequest($request);
+
+        if ($formCapteur->isSubmitted()) {
+ 
+                $this->getDoctrine()->getManager()->persist($capteurCible);
+                $this->getDoctrine()->getManager()->flush(); 
+                return $this->redirectToRoute('capteurs_pollution_gestionCapteur');
+ 
+             
+        }
+            return $this->render('capteurs_pollution/forms/addOrModify.html.twig', ['formCapteur'=>$formCapteur->createView(),'typeAction'=>'modifier', 'capteurs'=> $listeCapteur, 'capteur' => $capteurCible]);
+    }
     
-            if ($form->isSubmitted()) {
+    /**
+     * @Route("/gestionCapteurs/supprimer/{nomCapteur}", name="supprimerrCapteur")
+     */
+    public function supprimerCapteur(Request $request, Capteur $nomCapteur)
+    {
+        $repositoryCapteur = $this->getDoctrine()->getRepository(Capteur::class);
 
-                
-            }
-
-            return $this->render('capteurs_pollution/forms/addOrModify.html.twig', ['form'=>$form->createView(), 'nomDuCapteur'=>$nomCapteur, 'typeAction'=>$typeAction, 'latitude'=>$latitude, 'longitude'=>$longitude, 'capteurs'=> $listeCapteur]);
-
+        $resultatFinByNom = $repositoryCapteur->findByNom($nomCapteur);  
+        $capteurCible = $resultatFinByNom[0];
+ 
+        $this->getDoctrine()->getManager()->remove($capteurCible);
+        $this->getDoctrine()->getManager()->flush(); 
+        return $this->redirectToRoute('capteurs_pollution_gestionCapteur');
+     
     }
 
 
