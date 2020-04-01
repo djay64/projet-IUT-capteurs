@@ -63,6 +63,13 @@ class Releve
      */
     private $date;
 
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="mois", type="integer", nullable=true)
+     */
+    private $mois;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +143,18 @@ class Releve
     public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getMois(): ?int
+    {
+        return $this->mois;
+    }
+
+    public function setMois(?int $mois): self
+    {
+        $this->mois = $mois;
 
         return $this;
     }

@@ -65,12 +65,15 @@
       <div class="col-lg-6 col-md-12 my-md-3 background-container-section">
         <h5 class="text-light pl-3">Concentration des particules en µg/m³</h5>
           <div style="width:100%">
-            <canvas id="myChart" width="100%" height="50%"></canvas>
+            <canvas id="myChart1" width="100%" height="50%"></canvas>
           </div>
       </div>
 
       <div class="col-lg-5 col-md-12 my-md-3 background-container-section ">
-        <h5 class="text-light pl-3">Répartition des particules en %</h5>
+        <h5 class="text-light pl-3">Indice Atmo : cumul sur la journée des taux de particules</h5>
+        <div style="width:100%" class="mt-5">
+          <canvas id="myChart2" width="100%" height="50%"></canvas>
+        </div>
       </div>    
 
     </div>
@@ -84,11 +87,10 @@
 
 
     {% set i = 0 %}
-
-
-<script language="javascript">
-        
-           var ctx = document.getElementById('myChart').getContext('2d');
+    
+    <script language="javascript">
+        //********** Graphique en ligne **********//
+           var ctx = document.getElementById('myChart1').getContext('2d');
            var heure = new Date().getHours();
            var heurePourLeTableau = heure;
            var heures = [];
@@ -148,6 +150,55 @@
                 }
             });
 
+
+            //********** Graphique en barre  **********//
+           var ctx = document.getElementById('myChart2').getContext('2d');
+           
+           //création du tableau des labels 
+           var particule = ['Pm10','Pm2.5'];
+        
+            /* ******** POUR DIAGRAMME EN LIGNE PM10 ********** */
+            //création des tableaux de releves calcul de l'atmo sur la journée  => cumul sur la journée
+            var relevesPm10Atmo = [0];
+           
+           '{% for rel in relevesPm10 %}'
+                '{% for r in rel %}'
+                    relevesPm10Atmo[0] += parseInt('{{r}}');
+                  
+                '{% endfor %}'
+            '{% endfor %}'
+            var relevesPm25Atmo = [0];
+           
+           '{% for rel in relevesPm25 %}'
+                '{% for r in rel %}'
+                    relevesPm25Atmo[0] += parseInt('{{r}}');
+                  
+                '{% endfor %}'
+            '{% endfor %}'
+
+        
+
+
+             var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: particule,
+                    datasets: [{
+                        data: relevesPm10Atmo + relevesPm25Atmo, 
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(99, 255, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(99, 255, 132, 1)'
+                        ],
+                    }]
+                },
+                options: {
+                  legend: { display: false }
+                }
+            });
             
     </script>
 

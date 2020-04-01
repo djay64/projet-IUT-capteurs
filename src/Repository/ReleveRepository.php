@@ -65,17 +65,22 @@ class ReleveRepository extends ServiceEntityRepository
     
     public function findByPm10($dateDebut, $dateFin, $capteurs)
     {
+        //différence entre les deux dates
+        $interval = $dateFin->diff($dateDebut);
         //charger le gestionnaire d'entité
         $gestionnaireEntite = $this->getEntityManager();
 
         //décrire la requete
         if($dateDebut == $dateFin){
-            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.capteur IN (:capteurs) AND r.dateHeure LIKE :dateDebut GROUP BY r.dateHeure');
+            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date LIKE :dateDebut GROUP BY r.date,r.heure');
+        }else if($interval->format('%a') < '32' ){
+            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date BETWEEN :dateDebut AND :dateFin GROUP BY r.date,r.heure');
+            $requete->setParameter('dateFin', $dateFin->format('Y-m-d').'%');
         }else{
-            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.capteur IN (:capteurs) AND r.dateHeure BETWEEN :dateDebut AND :dateFin GROUP BY r.dateHeure');
+            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date BETWEEN :dateDebut AND :dateFin GROUP BY r.mois');
             $requete->setParameter('dateFin', $dateFin->format('Y-m-d').'%');
         }
-
+        
         $requete->setParameter('capteurs', array_values($capteurs));
         $requete->setParameter('dateDebut', $dateDebut->format('Y-m-d').'%');
         
@@ -83,6 +88,7 @@ class ReleveRepository extends ServiceEntityRepository
         return $requete->execute();
 
     }
+
 
     /**
      * @return Releve[] Returns an array of Releve objects
@@ -91,14 +97,20 @@ class ReleveRepository extends ServiceEntityRepository
     
     public function findByPm25($dateDebut, $dateFin, $capteurs)
     {
+        //différence entre les deux dates
+        $interval = $dateFin->diff($dateDebut);
+        
         //charger le gestionnaire d'entité
         $gestionnaireEntite = $this->getEntityManager();
-
+        
         //décrire la requete
         if($dateDebut == $dateFin){
-            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.capteur IN (:capteurs) AND r.dateHeure LIKE :dateDebut GROUP BY r.dateHeure');
+            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date LIKE :dateDebut GROUP BY r.date,r.heure');
+        }else if($interval->format('%a') < '32' ){
+            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date BETWEEN :dateDebut AND :dateFin GROUP BY r.date,r.heure');
+            $requete->setParameter('dateFin', $dateFin->format('Y-m-d').'%');
         }else{
-            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.capteur IN (:capteurs) AND r.dateHeure BETWEEN :dateDebut AND :dateFin GROUP BY r.dateHeure');
+            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date BETWEEN :dateDebut AND :dateFin GROUP BY r.mois');
             $requete->setParameter('dateFin', $dateFin->format('Y-m-d').'%');
         }
         
@@ -109,6 +121,7 @@ class ReleveRepository extends ServiceEntityRepository
         return $requete->execute();
         
     }
+
     
     /**
      * @return Releve[] Returns an array of Releve objects
