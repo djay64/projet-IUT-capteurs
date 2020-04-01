@@ -101,8 +101,7 @@ class CapteursPollutionController extends AbstractController
         ->add('typeParticule', ChoiceType::class, ['label' => 'Particules', 'choices' => ['PM 2.5' => 'pm25', 'PM 10' => 'pm10'], 'expanded' => true, 'multiple' => true, 'empty_data' => ['pm25', 'pm10']])
         ->add('capteurs', EntityType::class, ['class' => Capteur::class, 'choice_label' => 'nom', 'multiple' => true, 'expanded' => false])
         ->add('typeGraphique', ChoiceType::class, ['label' => 'Type de graphique', 'choices' => ['Barre' => 'bar', 'Ligne' => 'line', 'Radar' => 'radar', 'Secteur' => 'pie', 'Donut' => 'doughnut', 'Polaire' => 'polarArea'], 'expanded' => true, 'multiple' => false])
-        ->add('Modifier', SubmitType::class)
-        ->add('Exporter', SubmitType::class)
+        ->add('Modifier', SubmitType::class) 
         ->getForm();
         
         $formulaireFiltres->handleRequest($requete);

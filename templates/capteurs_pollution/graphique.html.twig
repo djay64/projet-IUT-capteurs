@@ -434,15 +434,16 @@
                     <div class="">
                         {{ form_widget(selectionFiltres.Modifier, {'attr': {'class': 'button-custom'}}) }}
                     </div>    
+                  {{form_end(selectionFiltres)}} 
                     <div class="ml-3">
-                        {{ form_widget(selectionFiltres.Exporter, {'attr': {'class': 'button-custom'}}) }}
+                        <button class="btn  button-custom" onclick="exporter()">Exporter le graphique</button>
                     </div>
                 </div>
             </div>
 
         </div>
     </div>
-      {{form_end(selectionFiltres)}} 
+
 
 {% endblock %}
 
@@ -450,4 +451,14 @@
 
 {% block javascripts %}
     {{ encore_entry_script_tags('page-graphique') }}
+
+    <script>
+        function exporter() {
+        var graphique = document.getElementById('myChart');
+        var urlImage = graphique.toDataURL();
+
+        window.open(urlImage,'_blank', null);
+    }
+
+</script>
 {% endblock %}

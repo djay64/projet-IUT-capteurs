@@ -18,3 +18,10 @@ console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
  
 
 document.getElementById("nav-item-graphique").classList.add("active");
+
+function exporter() {
+    var graphique = document.getElementById('myChart');
+    var urlImage = graphique.toDataURL();
+
+    window.open(urlImage,'_blank', null);
+}
