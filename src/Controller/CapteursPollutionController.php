@@ -50,13 +50,13 @@ class CapteursPollutionController extends AbstractController
         $niveauActuelParticulePm10 = substr($niveauActuelParticulePm10, 0, 4);
    
 
-        if ( $niveauActuelParticulePm10 >= 0 && $niveauActuelParticulePm10 < 10 ) {
+        if ( $niveauActuelParticulePm10 >= 0 && $niveauActuelParticulePm10 < 28 ) {
             $couleurParticulePm10 = "bg-success";
         }  
-        if ( $niveauActuelParticulePm10 >= 10 && $niveauActuelParticulePm10 < 20 ) {
+        if ( $niveauActuelParticulePm10 >= 28 && $niveauActuelParticulePm10 < 50 ) {
             $couleurParticulePm10 = "bg-warning";
         }  
-        if ( $niveauActuelParticulePm10 >= 20 ) {
+        if ( $niveauActuelParticulePm10 >= 50 ) {
             $couleurParticulePm10 = "bg-danger";
         }  
 
@@ -64,13 +64,13 @@ class CapteursPollutionController extends AbstractController
         $niveauActuelParticulePm25 = $relevesPm25[date("H")][1];
         $niveauActuelParticulePm25 = substr($niveauActuelParticulePm25, 0, 4);
 
-        if ( $niveauActuelParticulePm25 >= 0 && $niveauActuelParticulePm25 < 10 ) {
+        if ( $niveauActuelParticulePm25 >= 0 && $niveauActuelParticulePm25 < 28 ) {
             $couleurParticulePm25 = "bg-success";
         } 
-        if ( $niveauActuelParticulePm25 >= 10 && $niveauActuelParticulePm25 < 20 ) {
+        if ( $niveauActuelParticulePm25 >= 28 && $niveauActuelParticulePm25 < 50 ) {
             $couleurParticulePm25 = "bg-warning";
         }  
-        if ( $niveauActuelParticulePm25 >= 20 ) {
+        if ( $niveauActuelParticulePm25 >= 50 ) {
             $couleurParticulePm25 = "bg-danger";
         }   
 
