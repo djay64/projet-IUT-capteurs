@@ -70,7 +70,7 @@
       </div>
 
       <div class="col-lg-5 col-md-12 my-md-3 background-container-section ">
-        <h5 class="text-light pl-3">Indice Atmo : cumul sur la journée des taux de particules</h5>
+        <h5 class="text-light pl-3">indice atmo : moyenne journalière des taux de particules</h5>
         <div style="width:100%" class="mt-5">
           <canvas id="myChart2" width="100%" height="50%"></canvas>
         </div>
@@ -161,23 +161,34 @@
             //création des tableaux de releves calcul de l'atmo sur la journée  => cumul sur la journée
             var relevesPm10Atmo = [0];
            
+            var nbReleves = 0;
            '{% for rel in relevesPm10 %}'
                 '{% for r in rel %}'
                     relevesPm10Atmo[0] += parseInt('{{r}}');
                   
+                    nbReleves++;
                 '{% endfor %}'
             '{% endfor %}'
+            relevesPm10Atmo[0] = relevesPm10Atmo[0]/nbReleves;
+            
+
             var relevesPm25Atmo = [0];
            
+           nbReleves = 0;
            '{% for rel in relevesPm25 %}'
                 '{% for r in rel %}'
                     relevesPm25Atmo[0] += parseInt('{{r}}');
                   
+                    nbReleves++;
                 '{% endfor %}'
             '{% endfor %}'
 
+           
+            relevesPm25Atmo[0] = relevesPm25Atmo[0]/nbReleves;
+            
         
 
+            var relevesParticules = [relevesPm10Atmo[0],relevesPm25Atmo[0]]
 
              var myChart = new Chart(ctx, {
                 type: 'bar',
@@ -185,6 +196,7 @@
                     labels: particule,
                     datasets: [{
                         data: relevesPm10Atmo + relevesPm25Atmo, 
+                        data: relevesParticules, 
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(99, 255, 132, 0.2)'
@@ -201,6 +213,7 @@
             });
             
     </script>
+
 
 
 

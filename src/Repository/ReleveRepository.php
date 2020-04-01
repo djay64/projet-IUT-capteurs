@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Releve;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use \DateTime;
 
 /**
  * @method Releve|null find($id, $lockMode = null, $lockVersion = null)
@@ -31,7 +32,7 @@ class ReleveRepository extends ServiceEntityRepository
         //récupérer la date du jour 
         $dateDuJour =  date("Y-m-d");
         //décrire la requete
-        $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.dateHeure LIKE :dateDuJour GROUP BY r.dateHeure');
+        $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.dateHeure LIKE :dateDuJour GROUP BY r.heure');
         $requete->setParameter('dateDuJour', $dateDuJour.'%'); // mettre $dateDuJour au lieu de $date
         //exécuter la requete et retourner les résultats
         return $requete->execute();
@@ -52,7 +53,7 @@ class ReleveRepository extends ServiceEntityRepository
         //récupérer la date du jour 
         $dateDuJour =  date("Y-m-d");
         //décrire la requete
-        $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.dateHeure LIKE :dateDuJour GROUP BY r.dateHeure');
+        $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.dateHeure LIKE :dateDuJour GROUP BY r.heure');
         $requete->setParameter('dateDuJour', $dateDuJour.'%'); // mettre $dateDuJour au lieu de $date
         //exécuter la requete et retourner les résultats
         return $requete->execute();
@@ -89,7 +90,6 @@ class ReleveRepository extends ServiceEntityRepository
 
     }
 
-
     /**
      * @return Releve[] Returns an array of Releve objects
      */
@@ -121,9 +121,8 @@ class ReleveRepository extends ServiceEntityRepository
         return $requete->execute();
         
     }
-
     
-    /**
+       /**
      * @return Releve[] Returns an array of Releve objects
      */
 
@@ -164,6 +163,7 @@ class ReleveRepository extends ServiceEntityRepository
         return $requete->execute();
 
     }
+
 
     /*
     public function findOneBySomeField($value): ?Releve
