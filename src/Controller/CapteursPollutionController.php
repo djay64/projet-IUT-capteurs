@@ -45,11 +45,10 @@ class CapteursPollutionController extends AbstractController
         $relevesPm10 = $repositoryReleve->findByPm10MoyJour();
         $relevesPm25 = $repositoryReleve->findByPm25MoyJour();
 
-        $globalArrayNiveauPm10 = $repositoryReleve->findByPm10Heure(); 
-        $niveauActuelParticulePm10 = $globalArrayNiveauPm10[0][1];
+ 
+        $niveauActuelParticulePm10 = $relevesPm10[date("H")][1];
         $niveauActuelParticulePm10 = substr($niveauActuelParticulePm10, 0, 4);
-        
-
+   
 
         if ( $niveauActuelParticulePm10 >= 0 && $niveauActuelParticulePm10 < 10 ) {
             $couleurParticulePm10 = "bg-success";
@@ -61,11 +60,8 @@ class CapteursPollutionController extends AbstractController
             $couleurParticulePm10 = "bg-danger";
         }  
 
-
-
-        
-        $globalArrayNiveauPm25 = $repositoryReleve->findByPm25Heure(); 
-        $niveauActuelParticulePm25 = $globalArrayNiveauPm25[0][1];
+ 
+        $niveauActuelParticulePm25 = $relevesPm25[date("H")][1];
         $niveauActuelParticulePm25 = substr($niveauActuelParticulePm25, 0, 4);
 
         if ( $niveauActuelParticulePm25 >= 0 && $niveauActuelParticulePm25 < 10 ) {
