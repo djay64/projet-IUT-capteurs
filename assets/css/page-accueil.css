@@ -70,9 +70,10 @@
     background-color: var(--fifth-color) ;
   }
   
-  .graphique-principal .background-div-container{
-  
-  }
+.card-additional-information{
+  background-color: var(--background-color);
+  color: var(--secondary-color);
+}
   
   
   
