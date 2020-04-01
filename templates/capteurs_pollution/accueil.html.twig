@@ -43,11 +43,11 @@
 				</div>
 				<div class="col-lg-2 col-md-5 col-sm-12 my-3 pt-1 card card-additional-information">
 					<h5>Température</h5>
-					<h2>17°C</h2>
+					<h2 id="temperature">No Data</h2>
 				</div>
 				<div class="col-lg-2 col-md-5 col-sm-12 my-3 pt-1 card card-additional-information">
 					<h5>Humidité</h5>
-					<h2>59%</h2>
+					<h2 id="humidite">No Data</h2>
 				</div>
 
 			</div>
@@ -231,6 +231,37 @@
  
 {% endblock %}{% block javascripts %}
   {{ encore_entry_script_tags('page-accueil') }}
+
+
+<script>
+var callBackGetSuccess = function(data) {
+    document.getElementById("temperature").innerHTML = data.main.temp+"°C";
+    document.getElementById("humidite").innerHTML = data.main.temp+"°C";
+}
+
+
+
+  var xhttp;
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+       
+          //document.getElementById("temperature").innerHTML = this.responseText;
+          const parsedJson = JSON.parse(this.responseText);
+          document.getElementById("temperature").innerHTML = parsedJson.main.temp+"°C";
+          document.getElementById("humidite").innerHTML = parsedJson.main.humidity+"%";
+
+
+
+       
+  };
+  xhttp.open("GET", "https://api.openweathermap.org/data/2.5/weather?q=bayonne&appid=c21a75b667d6f7abb81f118dcf8d4611&units=metric", true);
+  xhttp.send();
+ 
+</script>
+
+
+
+  
 {% endblock %}
 
 
