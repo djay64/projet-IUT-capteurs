@@ -147,6 +147,13 @@
                     }]
                 },
                 options: {
+                  scales: {
+                    yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                    }]
+                 }
                 }
             });
 
@@ -208,14 +215,22 @@
                     }]
                 },
                 options: {
-                  legend: { display: false }
+                  legend: { display: false },
+                  scales: {
+                    yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                    }]
+                 }
                 }
+                
             });
             
     </script>
 
 
-
+legend: { display: false }
 
 {% endblock %}{% block javascripts %}
   {{ encore_entry_script_tags('page-accueil') }}
