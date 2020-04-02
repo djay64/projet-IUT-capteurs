@@ -142,9 +142,9 @@ class CapteursPollutionController extends AbstractController
 
 
     /**
-     * @Route("/gestionCapteurs/", name="capteurs_pollution_gestionCapteur")
+     * @Route("/gestionCapteurs/{actionRealisee}", name="capteurs_pollution_gestionCapteur")
      */
-    public function gestionCapteur(Request $request)
+    public function gestionCapteur(Request $request, $actionRealisee = "noAction")
     {
         $repositoryCapteur = $this->getDoctrine()->getRepository(Capteur::class);
         $listeCapteur = $repositoryCapteur->findAll();
@@ -174,7 +174,7 @@ class CapteursPollutionController extends AbstractController
                 }
                 
             }
-            return $this->render('capteurs_pollution/gestion-capteurs.html.twig', ['form'=>$form->createView(), 'capteurs'=> $listeCapteur]);
+            return $this->render('capteurs_pollution/gestion-capteurs.html.twig', ['form'=>$form->createView(), 'capteurs'=> $listeCapteur, 'actionRealisee' => $actionRealisee]);
 
     }
 
@@ -203,7 +203,7 @@ class CapteursPollutionController extends AbstractController
         }
 
             
-        return $this->render('capteurs_pollution/forms/modifyOrDelet.html.twig', ['form'=>$form->createView(), 'capteur' => $capteurCible, 'capteurs'=> $listeCapteur ]);
+        return $this->render('capteurs_pollution/forms/modifyOrDelet.html.twig', ['form'=>$form->createView(), 'capteur' => $capteurCible, 'capteurs'=> $listeCapteur, 'actionRealisee' => 'noAction' ]);
 
     }
 
@@ -233,13 +233,13 @@ class CapteursPollutionController extends AbstractController
  
                 $this->getDoctrine()->getManager()->persist($nouveauCapteur);
                 $this->getDoctrine()->getManager()->flush(); 
-                return $this->redirectToRoute('capteurs_pollution_gestionCapteur');
+                return $this->redirectToRoute('capteurs_pollution_gestionCapteur', ['actionRealisee'=>"ajouté"]);
  
             
         }
 
             
-        return $this->render('capteurs_pollution/forms/addOrModify.html.twig', ['formCapteur'=>$formCapteur->createView(),'typeAction'=>"ajouter", 'capteurs'=> $listeCapteur]);
+        return $this->render('capteurs_pollution/forms/addOrModify.html.twig', ['formCapteur'=>$formCapteur->createView(),'typeAction'=>"Ajouter", 'capteurs'=> $listeCapteur, 'actionRealisee' => 'noAction']);
 
     }
     
@@ -267,11 +267,11 @@ class CapteursPollutionController extends AbstractController
  
                 $this->getDoctrine()->getManager()->persist($capteurCible);
                 $this->getDoctrine()->getManager()->flush(); 
-                return $this->redirectToRoute('capteurs_pollution_gestionCapteur');
+                return $this->redirectToRoute('capteurs_pollution_gestionCapteur', ['actionRealisee'=>"modifié"]);
  
              
         }
-            return $this->render('capteurs_pollution/forms/addOrModify.html.twig', ['formCapteur'=>$formCapteur->createView(),'typeAction'=>'modifier', 'capteurs'=> $listeCapteur, 'capteur' => $capteurCible]);
+            return $this->render('capteurs_pollution/forms/addOrModify.html.twig', ['formCapteur'=>$formCapteur->createView(),'typeAction'=>'Modifier', 'capteurs'=> $listeCapteur, 'capteur' => $capteurCible, 'actionRealisee' => 'noAction']);
     }
     
     /**
@@ -286,7 +286,7 @@ class CapteursPollutionController extends AbstractController
  
         $this->getDoctrine()->getManager()->remove($capteurCible);
         $this->getDoctrine()->getManager()->flush(); 
-        return $this->redirectToRoute('capteurs_pollution_gestionCapteur');
+        return $this->redirectToRoute('capteurs_pollution_gestionCapteur', ['actionRealisee'=>"supprimé"]);
      
     }
 
