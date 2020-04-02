@@ -110,6 +110,7 @@
                     i++;
                 '{% endfor %}'
             '{% endfor %}'
+            
             var relevesPm25 = Array();
            var i = 0;
            '{% for rel in relevesPm25 %}'
@@ -118,7 +119,7 @@
                     i++;
                 '{% endfor %}'
             '{% endfor %}'
-
+           
 
 
              var myChart = new Chart(ctx, {
@@ -172,7 +173,6 @@
            '{% for rel in relevesPm10 %}'
                 '{% for r in rel %}'
                     relevesPm10Atmo[0] += parseInt('{{r}}');
-                  
                     nbReleves++;
                 '{% endfor %}'
             '{% endfor %}'
@@ -180,21 +180,40 @@
             
 
             var relevesPm25Atmo = [0];
-           
            nbReleves = 0;
            '{% for rel in relevesPm25 %}'
                 '{% for r in rel %}'
                     relevesPm25Atmo[0] += parseInt('{{r}}');
-                  
                     nbReleves++;
                 '{% endfor %}'
             '{% endfor %}'
 
            
             relevesPm25Atmo[0] = relevesPm25Atmo[0]/nbReleves;
-            
-        
-
+            var couleursBackground = Array(2);
+            var couleursBorder = Array(2);
+            //couleur de l'indice et indice pm 10
+            if(relevesPm10Atmo[0]<27){
+              couleursBackground[0] = 'rgba(0, 255, 0, 0.2)';
+              couleursBorder[0] = 'rgba(0, 255, 0, 1)';
+            }else if(relevesPm10Atmo[0]<49){
+              couleursBackground[0] = 'rgba(237, 127, 16, 0.2)';
+              couleursBorder[0] = 'rgba(237, 127, 16, 1)';
+            }else{
+              couleursBackground[0] = 'rgba(255, 0, 0, 0.2)';
+              couleursBorder[0] = 'rgba(255, 0, 0, 1)';
+            }
+            //couleur de l'indice et indice pm 25
+            if(relevesPm25Atmo[0]<27){
+              couleursBackground[1] = 'rgba(0, 255, 0, 0.2)';
+              couleursBorder[1] = 'rgba(0, 255, 0, 1)';
+            }else if(relevesPm25Atmo[0]<49){
+              couleursBackground[1] = 'rgba(237, 127, 16, 0.2)';
+              couleursBorder[1] = 'rgba(237, 127, 16, 1)';
+            }else{
+              couleursBackground[1] = 'rgba(255, 0, 0, 0.2)';
+              couleursBorder[1] = 'rgba(255, 0, 0, 1)';
+            }
             var relevesParticules = [relevesPm10Atmo[0],relevesPm25Atmo[0]]
 
              var myChart = new Chart(ctx, {
@@ -202,16 +221,9 @@
                 data: {
                     labels: particule,
                     datasets: [{
-                        data: relevesPm10Atmo + relevesPm25Atmo, 
                         data: relevesParticules, 
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(99, 255, 132, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(99, 255, 132, 1)'
-                        ],
+                        backgroundColor: couleursBackground,
+                        borderColor: couleursBorder,
                     }]
                 },
                 options: {
@@ -234,13 +246,6 @@
 
 
 <script>
-var callBackGetSuccess = function(data) {
-    document.getElementById("temperature").innerHTML = data.main.temp+"°C";
-    document.getElementById("humidite").innerHTML = data.main.temp+"°C";
-}
-
-
-
   var xhttp;
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -248,11 +253,7 @@ var callBackGetSuccess = function(data) {
           //document.getElementById("temperature").innerHTML = this.responseText;
           const parsedJson = JSON.parse(this.responseText);
           document.getElementById("temperature").innerHTML = parsedJson.main.temp+"°C";
-          document.getElementById("humidite").innerHTML = parsedJson.main.humidity+"%";
-
-
-
-       
+          document.getElementById("humidite").innerHTML = parsedJson.main.humidity+"%";       
   };
   xhttp.open("GET", "https://api.openweathermap.org/data/2.5/weather?q=bayonne&appid=c21a75b667d6f7abb81f118dcf8d4611&units=metric", true);
   xhttp.send();
