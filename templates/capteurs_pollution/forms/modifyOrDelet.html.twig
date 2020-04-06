@@ -13,8 +13,12 @@
 	<p>Latitude :
 		{{ capteur.latitude }}</p>
 	<p>Longitude :
-		{{ capteur.longitude }}</p>
+		{{ capteur.longitude }}</p> 
 
+	<input class="form-check-input ml-1" type="checkbox" value="" id="verification">
+	<label class="form-check-label ml-4">
+    	Je suis conscient que la suppression d'un capteur est irréversible
+  	</label>
 
 	<div class="d-flex justify-content-end">
 		<div class="p-2">
@@ -28,12 +32,27 @@
 				<button type="button" class="btn button-custom">Modifier</button>
 			</a>
 		</div>
+	
 		<div class="p-2">
 			<a href="{{ path('supprimerrCapteur', { 'nomCapteur': urlPourModifier }) }}">
-				<button type="button" class="btn button-custom">Supprimer</button>
+				<button type="button" id="boutonSupprimer" class="btn button-custom" disabled>Supprimer</button>
 			</a>
 		</div>
 	</div>
+
+
+<script>
+$('#verification').click(function(){
+     
+    if($(this).prop('checked') == false){
+         $('#boutonSupprimer').attr("disabled","disabled");   
+    }
+    if($(this).prop('checked') == true){
+        $('#boutonSupprimer').removeAttr('disabled');
+    }
+});
+
+</script>
 
 
 {% endblock %}

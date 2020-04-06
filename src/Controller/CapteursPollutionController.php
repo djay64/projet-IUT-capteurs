@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType; 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use App\Entity\Capteur;
@@ -189,21 +189,8 @@ class CapteursPollutionController extends AbstractController
         $listeCapteur = $repositoryCapteur->findAll();
         $resultatFinByNom = $repositoryCapteur->findByNom($nomCapteur);  
         $capteurCible = $resultatFinByNom[0];
-
-
-        $defaultData = ['message' => 'Type your message here']; 
-        $form = $this->createFormBuilder($nomCapteur)
-        ->add('latitude')
-        ->add('longitude')
-        ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-        }
-
-            
-        return $this->render('capteurs_pollution/forms/modifyOrDelet.html.twig', ['form'=>$form->createView(), 'capteur' => $capteurCible, 'capteurs'=> $listeCapteur, 'actionRealisee' => 'noAction' ]);
+           
+        return $this->render('capteurs_pollution/forms/modifyOrDelet.html.twig', ['capteur' => $capteurCible, 'capteurs'=> $listeCapteur, 'actionRealisee' => 'noAction' ]);
 
     }
 
