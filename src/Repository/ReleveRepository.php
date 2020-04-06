@@ -71,11 +71,14 @@ class ReleveRepository extends ServiceEntityRepository
         //charger le gestionnaire d'entité
         $gestionnaireEntite = $this->getEntityManager();
 
-        //décrire la requete
+        //décrire la requete en fonction du nombre de jours sélectionnés
         if($dateDebut == $dateFin){
             $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date LIKE :dateDebut GROUP BY r.date,r.heure');
-        }else if($interval->format('%a') < '32' ){
+        }else if($interval->format('%a') < '4' ){
             $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date BETWEEN :dateDebut AND :dateFin GROUP BY r.date,r.heure');
+            $requete->setParameter('dateFin', $dateFin->format('Y-m-d').'%');
+        }else if($interval->format('%a') < '32' ){
+            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date BETWEEN :dateDebut AND :dateFin GROUP BY r.date');
             $requete->setParameter('dateFin', $dateFin->format('Y-m-d').'%');
         }else{
             $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date BETWEEN :dateDebut AND :dateFin GROUP BY r.mois');
@@ -103,11 +106,14 @@ class ReleveRepository extends ServiceEntityRepository
         //charger le gestionnaire d'entité
         $gestionnaireEntite = $this->getEntityManager();
         
-        //décrire la requete
+        //décrire la requete en fonction du nombre de jours sélectionnés
         if($dateDebut == $dateFin){
             $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date LIKE :dateDebut GROUP BY r.date,r.heure');
-        }else if($interval->format('%a') < '32' ){
+        }else if($interval->format('%a') < '4' ){
             $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date BETWEEN :dateDebut AND :dateFin GROUP BY r.date,r.heure');
+            $requete->setParameter('dateFin', $dateFin->format('Y-m-d').'%');
+        }else if($interval->format('%a') < '32'){
+            $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date BETWEEN :dateDebut AND :dateFin GROUP BY r.date');
             $requete->setParameter('dateFin', $dateFin->format('Y-m-d').'%');
         }else{
             $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.capteurId IN (:capteurs) AND r.date BETWEEN :dateDebut AND :dateFin GROUP BY r.mois');
@@ -120,48 +126,6 @@ class ReleveRepository extends ServiceEntityRepository
         //exécuter la requete et retourner les résultats
         return $requete->execute();
         
-    }
-    
-       /**
-     * @return Releve[] Returns an array of Releve objects
-     */
-
-    public function findByPm10Heure()
-    {
-        //charger le gestionnaire d'entité
-        $gestionnaireEntite = $this->getEntityManager();
-
-        //récupérer la date du jour 
-        $dateDuJour =  date("Y-m-d");
-        $heure =  date("H");
-        //décrire la requete
-        $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm10) FROM App\Entity\Releve r WHERE r.dateHeure LIKE :dateDuJour AND r.heure LIKE :heure');
-        $requete->setParameter('dateDuJour', $dateDuJour.'%'); 
-        $requete->setParameter('heure', $heure.'%'); 
-        //exécuter la requete et retourner les résultats
-        return $requete->execute();
-
-    }
-    
-    /**
-     * @return Releve[] Returns an array of Releve objects
-     */
-
-    public function findByPm25Heure()
-    {
-        //charger le gestionnaire d'entité
-        $gestionnaireEntite = $this->getEntityManager();
-
-        //récupérer la date du jour 
-        $dateDuJour =  date("Y-m-d");
-        $heure =  date("H");
-        //décrire la requete
-        $requete = $gestionnaireEntite->createQuery('SELECT AVG(r.pm25) FROM App\Entity\Releve r WHERE r.dateHeure LIKE :dateDuJour AND r.heure LIKE :heure');
-        $requete->setParameter('dateDuJour', $dateDuJour.'%'); 
-        $requete->setParameter('heure', $heure.'%'); 
-        //exécuter la requete et retourner les résultats
-        return $requete->execute();
-
     }
 
 

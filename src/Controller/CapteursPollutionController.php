@@ -72,14 +72,7 @@ class CapteursPollutionController extends AbstractController
         }  
         if ( $niveauActuelParticulePm25 >= 50 ) {
             $couleurParticulePm25 = "bg-danger";
-        }   
-
-
-
-
-
-
-
+        }  
         return $this->render('capteurs_pollution/accueil.html.twig', ['relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25, 'particulePm10' => $niveauActuelParticulePm10,  'particulePm25' => $niveauActuelParticulePm25, 'couleurPm10' => $couleurParticulePm10, 'couleurPm25' => $couleurParticulePm25]);
     }
     
@@ -92,7 +85,7 @@ class CapteursPollutionController extends AbstractController
         $relevesPm10 = $repositoryReleve->findByPm10MoyJour();
         $relevesPm25 = $repositoryReleve->findByPm25MoyJour();
         $dateDuJour = date("md"); 
-        $dateDuJourDate = date("m-d-Y");
+        $dateDuJourDate = date("Y-m-d");
 
         $formulaireFiltres = $this->createFormBuilder($saisieFiltres)
         ->add('titre', TextType::class)
@@ -120,15 +113,15 @@ class CapteursPollutionController extends AbstractController
                 $relevesPm25 = $repositoryReleve->findByPm25($filtres['dateDebut'], $filtres['dateFin'], $capteurs);
                 $relevesPm10 = $repositoryReleve->findByPm10($filtres['dateDebut'], $filtres['dateFin'], $capteurs);
 
-                return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut']->format('md') ,'dateFin' => $filtres['dateFin']->format('md'),'dateDebutDate' => $filtres['dateDebut']->format('m-d-Y') ,'dateFinDate' => $filtres['dateFin']->format('m-d-Y'),'titre' => $filtres['titre'] ]);
+                return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => $relevesPm25, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut']->format('md') ,'dateFin' => $filtres['dateFin']->format('md'),'dateDebutDate' => $filtres['dateDebut']->format('Y-m-d') ,'dateFinDate' => $filtres['dateFin']->format('Y-m-d'),'titre' => $filtres['titre'] ]);
             }elseif ($filtres['typeParticule'][0] == 'pm25') {
                 $relevesPm25 = $repositoryReleve->findByPm25($filtres['dateDebut'], $filtres['dateFin'], $capteurs);
 
-                return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => null, 'relevesPm25' => $relevesPm25, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut']->format('md') ,'dateFin' => $filtres['dateFin']->format('md'),'dateDebutDate' => $filtres['dateDebut']->format('m-d-Y') ,'dateFinDate' => $filtres['dateFin']->format('m-d-Y'),'titre' => $filtres['titre']  ]);
+                return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => null, 'relevesPm25' => $relevesPm25, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut']->format('md') ,'dateFin' => $filtres['dateFin']->format('md'),'dateDebutDate' => $filtres['dateDebut']->format('Y-m-d') ,'dateFinDate' => $filtres['dateFin']->format('Y-m-d'),'titre' => $filtres['titre']  ]);
             }else{
                 $relevesPm10 = $repositoryReleve->findByPm10($filtres['dateDebut'], $filtres['dateFin'], $capteurs);
 
-                return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => null, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut']->format('md'),'dateFin' => $filtres['dateFin']->format('md'),'dateDebutDate' => $filtres['dateDebut']->format('m-d-Y') ,'dateFinDate' => $filtres['dateFin']->format('m-d-Y'),'titre' => $filtres['titre'] ]);
+                return $this->render('capteurs_pollution/graphique.html.twig', ['selectionFiltres' => $formulaireFiltres->createView(), 'relevesPm10' => $relevesPm10, 'relevesPm25' => null, 'typeGraphique' => $filtres['typeGraphique'],'dateDebut' => $filtres['dateDebut']->format('md'),'dateFin' => $filtres['dateFin']->format('md'),'dateDebutDate' => $filtres['dateDebut']->format('Y-m-d') ,'dateFinDate' => $filtres['dateFin']->format('Y-m-d'),'titre' => $filtres['titre'] ]);
             }
             
         }   
